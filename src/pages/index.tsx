@@ -11,6 +11,7 @@ import SteamGames from "../components/SteamGames";
 import KindleBooks from "../components/KindleBooks";
 import LastFmMusic from "../components/LastFmMusic";
 import { env } from "@/utilities/env";
+import Footer from "@/components/Footer";
 
 type Props = {
   status: string;
@@ -129,6 +130,7 @@ export default function Home(props: Props) {
               <a href="https://www.linkedin.com/in/jacklafond/">LinkedIn</a>
             </motion.li>
           </motion.ul>
+          <Footer />
         </motion.div>
       </motion.div>
     </main>
