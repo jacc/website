@@ -22,7 +22,7 @@ export const Status = ({ status }: StatusProps) => {
 
   const getStatusText = (status: string) => {
     if (status.toLowerCase() === "dnd") {
-      return "do not disturb";
+      return "on do not disturb";
     }
     return status;
   };
