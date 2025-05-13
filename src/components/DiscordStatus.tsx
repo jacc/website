@@ -4,22 +4,31 @@ interface StatusProps {
   status: string;
 }
 
-export const Status = ({ status }: StatusProps) => {
-  const getStatusColor = (status: string) => {
+type ColorType = "background" | "text";
+
+export const getStatusColor = (
+  status: string | number,
+  type: ColorType = "text"
+) => {
+  if (typeof status === "string") {
     switch (status.toLowerCase()) {
       case "online":
-        return "text-[#42A25A] underline underline-offset-2 decoration-[#42A25A]/50";
+        return type === "background" ? "bg-[#42A25A]" : "text-[#42A25A]";
       case "idle":
-        return "text-[#CA9654] underline underline-offset-2 decoration-[#CA9654]/50";
+        return type === "background" ? "bg-[#CA9654]" : "text-[#CA9654]";
       case "dnd":
-        return "text-[#D83A42] underline underline-offset-2 decoration-[#D83A42]/50";
+        return type === "background" ? "bg-[#D83A42]" : "text-[#D83A42]";
       case "offline":
-        return "text-gray-500";
+        return type === "background" ? "bg-[#6B7280]" : "text-[#6B7280]";
       default:
-        return "text-gray-500";
+        return type === "background" ? "bg-[#6B7280]" : "text-[#6B7280]";
     }
-  };
+  }
 
+  return type === "background" ? "bg-[#6B7280]" : "text-[#6B7280]";
+};
+
+export const Status = ({ status }: StatusProps) => {
   const getStatusText = (status: string) => {
     if (status.toLowerCase() === "dnd") {
       return "on do not disturb";
@@ -27,8 +36,14 @@ export const Status = ({ status }: StatusProps) => {
     return status;
   };
 
+  const color = getStatusColor(status, "text");
+  const isOffline =
+    status.toLowerCase() === "offline" || status.toLowerCase() === "";
+
   return (
-    <span className={clsx(getStatusColor(status))}>
+    <span
+      className={clsx(`${color}`, !isOffline && "underline underline-offset-2")}
+    >
       {getStatusText(status)}
     </span>
   );

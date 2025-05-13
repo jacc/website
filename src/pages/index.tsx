@@ -3,16 +3,17 @@ import { motion } from "framer-motion";
 import { GetStaticProps } from "next";
 import { group, item } from "@/utilities/constants";
 import { getLanyard } from "@/server/lanyard";
-import { Status } from "@/components/DiscordStatus";
+import { getStatusColor, Status } from "@/components/DiscordStatus";
 import { getSteamRecentGames, SteamRecentGamesResponse } from "@/server/steam";
 import { getMusic } from "@/server/lastfm";
-import { fetchBooks, HardcoverBook } from "@/server/hardcover";
+import { getCurrentlyReading, HardcoverBook } from "@/server/hardcover";
 import SteamGames from "../components/SteamGames";
 import KindleBooks from "../components/KindleBooks";
 import LastFmMusic from "../components/LastFmMusic";
 import { env } from "@/utilities/env";
 import Footer from "@/components/Footer";
 import PageLayout from "@/components/PageLayout";
+import clsx from "clsx";
 
 type Props = {
   status: string;
@@ -20,11 +21,12 @@ type Props = {
   music: Array<[string, string]>;
   books: HardcoverBook[];
 };
+
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const lanyard = await getLanyard(env.DISCORD_ID as `${bigint}`);
   const steam = await getSteamRecentGames();
   const music = await getMusic();
-  const books = await fetchBooks();
+  const books = await getCurrentlyReading();
 
   return {
     props: {
@@ -42,13 +44,23 @@ export default function Home(props: Props) {
     <PageLayout>
       <motion.div variants={group}>
         <motion.div variants={item} className="flex flex-col gap-4 mb-4">
-          <Image
-            src="https://avatars.githubusercontent.com/u/6956351?v=4"
-            alt="logo"
-            width={75}
-            height={75}
-            className="rounded-full border-2 border-zinc-500/50 cursor-pointer hover:scale-105 transition-transform"
-          />
+          <div className="sticky shrink-0">
+            <Image
+              src="https://avatars.githubusercontent.com/u/6956351?v=4"
+              alt="logo"
+              width={75}
+              height={75}
+              // Thank you Shayan / https://userjot.com
+              className="p-0.5 rounded-full border shrink-0 shadow-sm border-gray-200"
+            />
+            <div
+              className={clsx(
+                "absolute bottom-0.5 left-14.5 w-4 h-4 border-2 border-white dark:border-[#0A0A0A] rounded-full shadow-sm transition-colors duration-500",
+                getStatusColor(props.status, "background")
+              )}
+            ></div>
+          </div>
+
           <h1 className="text-2xl font-bold font-serif">
             ...who&apos;s Jack LaFond?
           </h1>
