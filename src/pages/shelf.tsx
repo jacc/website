@@ -4,6 +4,7 @@ import { getBooks } from "@/server/books";
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ArchiveIcon } from "lucide-react";
 
 interface Movie {
   title: string;
@@ -76,15 +77,32 @@ export default function Shelf(props: Props) {
 
   return (
     <PageLayout>
-      <h1 className="text-2xl font-serif font-bold mb-12">My Digital Shelf</h1>
+      <div className="sticky shrink-0 ">
+        <div className="p-0.5 rounded-full  shrink-0 shadow-sm ring ring-gray-200 dark:ring-offset-[#0A0A0A] ring-offset-2 bg-[#98714E] w-[75px] h-[75px] flex items-center justify-center">
+          <ArchiveIcon className="w-8 h-8 text-[#ffffff] dark:text-[#0A0A0A]" />
+        </div>
+      </div>
+
+      <h1 className="text-2xl font-bold font-serif">
+        Jack&apos;s Digital Shelf
+      </h1>
+
+      <p className="text-base dark:text-zinc-300 font-sans">
+        By nature, humans are social creatures. We crave connection, and one of
+        the most popular ways to share connection is through a love of films,
+        literature, and music. Below are some things I&apos;ve played, read, and
+        watched recently.
+      </p>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {allMedia.map((item) => (
           <Link
             key={`${item.type}-${item.title}`}
-            href={item.type === "movie" ? item.link : "#"} // Replace '#' with actual book review link when available
+            href={item.type === "movie" ? item.link : "#"}
             className={`relative aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
-              item.isCurrentlyReading ? "ring-2 ring-blue-500" : ""
+              item.isCurrentlyReading
+                ? "ring-2 ring-blue-500 ring-offset-2"
+                : ""
             }`}
           >
             {(item.type === "movie" ? item.posterUrl : item.coverUrl) && (
