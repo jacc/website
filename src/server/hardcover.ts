@@ -29,7 +29,7 @@ export type HardcoverBookResponse = {
   };
 };
 
-export async function fetchBooks(): Promise<HardcoverBook[]> {
+export async function getCurrentlyReading(): Promise<HardcoverBook[]> {
   const query = `
     query MyQuery {
       me {
