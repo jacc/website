@@ -12,6 +12,7 @@ import KindleBooks from "../components/KindleBooks";
 import LastFmMusic from "../components/LastFmMusic";
 import { env } from "@/utilities/env";
 import Footer from "@/components/Footer";
+import PageLayout from "@/components/PageLayout";
 
 type Props = {
   status: string;
@@ -38,31 +39,21 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 export default function Home(props: Props) {
   return (
-    <main className="mx-auto max-w-xl px-3 pt-24 pb-16">
-      <motion.div
-        className="flex flex-col gap-4"
-        initial="hidden"
-        animate="show"
-        variants={group}
-      >
-        <motion.div variants={item} className="flex flex-col gap-4">
+    <PageLayout>
+      <motion.div variants={group}>
+        <motion.div variants={item} className="flex flex-col gap-4 mb-4">
           <Image
             src="https://avatars.githubusercontent.com/u/6956351?v=4"
             alt="logo"
             width={75}
             height={75}
-            className="rounded-full border-2 border-zinc-500/50"
+            className="rounded-full border-2 border-zinc-500/50 cursor-pointer hover:scale-105 transition-transform"
           />
           <h1 className="text-2xl font-bold font-serif">
             ...who&apos;s Jack LaFond?
           </h1>
         </motion.div>
-        <motion.div
-          className="flex flex-col gap-4"
-          variants={group}
-          initial="hidden"
-          animate="show"
-        >
+        <motion.div className="flex flex-col gap-4" variants={group}>
           <motion.p
             className="text-base dark:text-zinc-300 font-sans"
             variants={item}
@@ -134,6 +125,6 @@ export default function Home(props: Props) {
           <Footer />
         </motion.div>
       </motion.div>
-    </main>
+    </PageLayout>
   );
 }
