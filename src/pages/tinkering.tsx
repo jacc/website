@@ -4,6 +4,7 @@ import { GetStaticProps } from "next";
 import { format, parseISO } from "date-fns";
 import { motion } from "framer-motion";
 import { group, item } from "@/utilities/constants";
+import { useState } from "react";
 
 interface Props {
   projects: {
@@ -32,8 +33,15 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 };
 
 export default function Tinkering({ projects }: Props) {
-  // Group projects by month
-  const groupedProjects = projects.reduce((acc, project) => {
+  const [showOnlyActive, setShowOnlyActive] = useState(false);
+
+  // Filter projects based on the showOnlyActive state
+  const filteredProjects = showOnlyActive
+    ? projects.filter((p) => p.isActive)
+    : projects;
+
+  // Group projects by month using the filtered list
+  const groupedProjects = filteredProjects.reduce((acc, project) => {
     const month = format(parseISO(project.date), "MMMM yyyy");
     if (!acc[month]) {
       acc[month] = [];
@@ -51,6 +59,14 @@ export default function Tinkering({ projects }: Props) {
         >
           Tinkering
         </motion.h1>
+        <motion.div variants={item} className="mb-8">
+          <button
+            onClick={() => setShowOnlyActive(!showOnlyActive)}
+            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 dark:text-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors"
+          >
+            {showOnlyActive ? "Show All Projects" : "Show Active Projects Only"}
+          </button>
+        </motion.div>
         <div className="relative flex">
           {/* SVG Patterned Vertical Line */}
           <div className="absolute inset-y-0 left-0 w-1.5 pointer-events-none z-0">
