@@ -4,7 +4,7 @@ import { GetStaticProps } from "next";
 import { format, parseISO } from "date-fns";
 import { motion } from "framer-motion";
 import { group, item } from "@/utilities/constants";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   projects: {
@@ -34,6 +34,9 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
 export default function Tinkering({ projects }: Props) {
   const [showOnlyActive, setShowOnlyActive] = useState(false);
+  const [highlightedProjectId, setHighlightedProjectId] = useState<
+    string | null
+  >(null);
 
   // Filter projects based on the showOnlyActive state
   const filteredProjects = showOnlyActive
@@ -49,6 +52,17 @@ export default function Tinkering({ projects }: Props) {
     acc[month].push(project);
     return acc;
   }, {} as Record<string, typeof projects>);
+
+  useEffect(() => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
+        setHighlightedProjectId(hash);
+      }
+    }
+  }, [projects]); // Rerun if projects change, though unlikely for this use case
 
   return (
     <PageLayout>
@@ -122,10 +136,17 @@ export default function Tinkering({ projects }: Props) {
                   {monthProjects.map((project) => (
                     <motion.div
                       key={project.id}
+                      id={project.id}
                       variants={item}
                       className="flex-1"
                     >
-                      <div className="border bg-[#FAFAFA] dark:bg-[#191919] border-[#F5F5F5] dark:border-[#2A2A2A] rounded-2xl p-5 min-w-[250px]">
+                      <div
+                        className={`border bg-[#FAFAFA] dark:bg-[#191919] border-[#F5F5F5] dark:border-[#2A2A2A] rounded-2xl p-5 min-w-[250px] transition-all duration-300 ${
+                          highlightedProjectId === project.id
+                            ? "ring-2 ring-offset-2 ring-blue-500 ring-offset-[#FAFAFA] dark:ring-offset-[#191919]"
+                            : ""
+                        }`}
+                      >
                         <div className="flex items-center mb-2">
                           <h3 className="text-lg font-serif font-medium">
                             {project.title}
