@@ -82,42 +82,54 @@ export default function Shelf(props: Props) {
           <ArchiveIcon className="w-8 h-8 text-[#ffffff] dark:text-[#0A0A0A]" />
         </div>
       </div>
-
       <h1 className="text-2xl font-bold font-serif">
         Jack&apos;s Digital Shelf
       </h1>
-
       <p className="text-base dark:text-zinc-300 font-sans">
         By nature, humans are social creatures. We crave connection, and one of
         the most popular ways to share connection is through a love of films,
         literature, and music. Below are some things I&apos;ve played, read, and
         watched recently.
       </p>
-
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {allMedia.map((item) => (
           <Link
             key={`${item.type}-${item.title}`}
             href={item.type === "movie" ? item.link : "#"}
-            className={`relative aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
-              item.isCurrentlyReading
-                ? "ring-2 ring-blue-500 ring-offset-2"
-                : ""
-            }`}
+            passHref
+            legacyBehavior
           >
-            {(item.type === "movie" ? item.posterUrl : item.coverUrl) && (
-              <Image
-                src={item.type === "movie" ? item.posterUrl! : item.coverUrl!}
-                alt={item.title}
-                fill
-                className="object-cover"
-              />
-            )}
-            {(item.rating || (item.type === "movie" && item.rating)) && (
-              <div className="absolute top-2 right-2 bg-[#FAFAFA] border border-zinc-500/50 text-[#525252] text-xs px-2 py-1 rounded-full backdrop-blur-sm">
-                {item.rating} ⭐
-              </div>
-            )}
+            <a
+              className={`relative aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
+                item.isCurrentlyReading
+                  ? "ring-2 ring-blue-500 ring-offset-2"
+                  : ""
+              }`}
+              target={
+                item.type === "movie" && item.link.startsWith("http")
+                  ? "_blank"
+                  : undefined
+              }
+              rel={
+                item.type === "movie" && item.link.startsWith("http")
+                  ? "noopener noreferrer"
+                  : undefined
+              }
+            >
+              {(item.type === "movie" ? item.posterUrl : item.coverUrl) && (
+                <Image
+                  src={item.type === "movie" ? item.posterUrl! : item.coverUrl!}
+                  alt={item.title}
+                  fill
+                  className="object-cover"
+                />
+              )}
+              {(item.rating || (item.type === "movie" && item.rating)) && (
+                <div className="absolute top-2 right-2 bg-[#FAFAFA] border border-zinc-500/50 text-[#525252] text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+                  {item.rating} ⭐
+                </div>
+              )}
+            </a>
           </Link>
         ))}
       </div>
