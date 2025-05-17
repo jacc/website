@@ -9,9 +9,10 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const Footer: React.FC = () => {
-  const [date, setDate] = useState(() => dayjs().tz("America/New_York"));
+  const [date, setDate] = useState<dayjs.Dayjs | null>(null);
 
   useEffect(() => {
+    setDate(dayjs().tz("America/New_York")); // Set initial time on client
     const update = () => {
       setDate(dayjs().tz("America/New_York"));
     };
@@ -35,8 +36,10 @@ const Footer: React.FC = () => {
       <div>
         <div className="flex justify-center items-center gap-1">
           <ClockIcon className="w-3 h-3" />
-          {date.format("h:mm:ss A")}{" "}
-          {date.hour() <= 1 && date.hour() < 6 ? " (I'm probably asleep)" : ""}
+          {date ? date.format("h:mm:ss A") : "--:--:-- --"}{" "}
+          {date && date.hour() <= 1 && date.hour() < 6
+            ? " (I'm probably asleep)"
+            : ""}
         </div>
       </div>
       <div className="flex items-center justify-center gap-1 mt-1">
