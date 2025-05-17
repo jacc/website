@@ -2,7 +2,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { GetStaticProps } from "next";
 import { group, item } from "@/utilities/constants";
-import { getLanyard } from "@/server/lanyard";
 import { getStatusColor, Status } from "@/components/DiscordStatus";
 import { getSteamRecentGames, SteamRecentGamesResponse } from "@/server/steam";
 import { getMusic } from "@/server/lastfm";
@@ -10,36 +9,37 @@ import { getCurrentlyReading, HardcoverBook } from "@/server/hardcover";
 import SteamGames from "../components/SteamGames";
 import KindleBooks from "../components/KindleBooks";
 import LastFmMusic from "../components/LastFmMusic";
-import { env } from "@/utilities/env";
 import Footer from "@/components/Footer";
 import PageLayout from "@/components/PageLayout";
 import clsx from "clsx";
+import { useLanyardWS } from "use-lanyard";
 
 type Props = {
-  status: string;
   steam: SteamRecentGamesResponse;
   music: Array<[string, string]>;
   books: HardcoverBook[];
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
-  const lanyard = await getLanyard(env.DISCORD_ID as `${bigint}`);
   const steam = await getSteamRecentGames();
   const music = await getMusic();
   const books = await getCurrentlyReading();
 
   return {
     props: {
-      status: lanyard.discord_status,
       steam,
       music,
       books,
     },
-    revalidate: 10,
+    revalidate: 3600,
   };
 };
 
 export default function Home(props: Props) {
+  // The variable is hardcoded due to a server validated env variable not being available on the client.
+  const lanyard = useLanyardWS("657057112593268756");
+  const status = lanyard?.discord_status || "offline";
+
   return (
     <PageLayout>
       <motion.div variants={group}>
@@ -56,7 +56,7 @@ export default function Home(props: Props) {
             <div
               className={clsx(
                 "absolute bottom-0.5 left-14.5 w-4 h-4 border-2 border-white dark:border-[#0A0A0A] rounded-full shadow-sm transition-colors duration-500",
-                getStatusColor(props.status, "background")
+                getStatusColor(status, "background")
               )}
             ></div>
           </div>
@@ -119,7 +119,7 @@ export default function Home(props: Props) {
             people from all over the world. Please reach out if you&apos;d like
             to chat! My Discord is{" "}
             <span className="font-serif italic text-sm">@lafond</span> -
-            I&apos;m currently <Status status={props.status} />.
+            I&apos;m currently <Status status={status} />.
           </motion.p>
           <motion.ul
             className="text-base dark:text-zinc-300 font-sans list-disc"

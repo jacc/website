@@ -7,6 +7,5 @@ export const env = z
     STEAM_API_KEY: z.string(),
     STEAM_ID: z.string(),
     HARDCOVER_API_TOKEN: z.string(),
-    DISCORD_ID: z.string(),
   })
   .parse(process.env);
