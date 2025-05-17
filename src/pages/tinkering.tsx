@@ -16,6 +16,7 @@ interface Props {
     link?: string;
     links?: { [key: string]: string }[];
     isActive?: boolean;
+    isAbandoned?: boolean;
   }[];
 }
 
@@ -115,10 +116,9 @@ export default function Tinkering({ projects }: Props) {
           <div className="flex-1 pl-6">
             {Object.entries(groupedProjects).map(([month, monthProjects]) => (
               <motion.div key={month} variants={item} className="mb-6 relative">
-                {/* Month Notch and Label */}
                 <motion.div
                   variants={group}
-                  className="relative flex items-center mb-4"
+                  className="relative flex items-center mb-2"
                   style={{ minHeight: 40 }}
                 >
                   <div
@@ -168,33 +168,28 @@ export default function Tinkering({ projects }: Props) {
                               <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                             </span>
                           )}
+                          {project.isAbandoned && (
+                            <span className="ml-3 px-2 py-0.5 text-xs text-red-800 border border-red-500 bg-red-100 rounded-lg dark:bg-red-700 dark:text-red-100">
+                              Abandoned
+                            </span>
+                          )}
                         </div>
-                        <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
+                        <p className="text-gray-600 dark:text-gray-300 mb-2 text-sm">
                           {project.description}
                         </p>
-                        <div className="flex flex-wrap gap-2">
-                          {project.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="px-2 py-1 text-xs border bg-[#ececec] dark:bg-[#0f0f0f] border-[#e1e1e1] dark:border-[#212121] rounded-lg"
+                        <div className="mt-2 flex flex-row flex-wrap items-center gap-x-4 gap-y-1">
+                          {project.link && (
+                            <a
+                              href={project.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-sm text-blue-600 hover:underline"
                             >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                        {project.link && (
-                          <a
-                            href={project.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="mt-4 text-sm text-blue-600 hover:underline inline-block"
-                          >
-                            View Project →
-                          </a>
-                        )}
-                        {project.links && project.links.length > 0 && (
-                          <div className="mt-4 flex flex-row gap-2">
-                            {project.links.map((linkObj, index) => {
+                              View Project →
+                            </a>
+                          )}
+                          {project.links &&
+                            project.links.map((linkObj, index) => {
                               const linkKey = Object.keys(linkObj)[0];
                               const linkValue = linkObj[linkKey];
                               return (
@@ -203,17 +198,25 @@ export default function Tinkering({ projects }: Props) {
                                   href={linkValue}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-sm text-blue-600 hover:underline inline-block"
+                                  className="text-sm text-blue-600 hover:underline"
                                 >
-                                  {/* Capitalize first letter of linkKey */}
                                   {linkKey.charAt(0).toUpperCase() +
                                     linkKey.slice(1)}{" "}
                                   →
                                 </a>
                               );
                             })}
-                          </div>
-                        )}
+                        </div>
+                        <div className="flex mt-2 flex-wrap gap-2">
+                          {project.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="px-2 py-1 text-sm border bg-[#ececec] dark:bg-[#0f0f0f] border-[#e1e1e1] dark:border-[#212121] rounded-lg"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </motion.div>
                   ))}
