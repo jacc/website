@@ -83,8 +83,9 @@ export default function Home(props: Props) {
             break and bother digital systems. That&apos;s lead to some pretty
             cool experiences. Some personal favorites include: reversing Life360
             and going viral for it, placing first in a global competition for
-            contributing to missing person cases, and writing software used by
-            tens of thousands of people monthly.
+            contributing to missing person cases, writing software used by tens
+            of thousands of people monthly, and getting a cease and desist from
+            beloved breakfast restaurant chain, Waffle House.
           </motion.p>
           <motion.p
             className="text-base dark:text-zinc-300 font-sans"

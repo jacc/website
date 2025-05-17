@@ -59,10 +59,14 @@ export default function Tinkering({ projects }: Props) {
       const element = document.getElementById(hash);
       if (element) {
         element.scrollIntoView({ behavior: "smooth", block: "center" });
-        setHighlightedProjectId(hash);
+        setHighlightedProjectId(hash); // Set highlight if element found
+      } else {
+        setHighlightedProjectId(null); // No element for hash, remove highlight
       }
+    } else {
+      setHighlightedProjectId(null); // No hash, remove highlight
     }
-  }, [projects]); // Rerun if projects change, though unlikely for this use case
+  }, [projects, typeof window !== "undefined" ? window.location.hash : ""]); // Re-run if projects or hash changes
 
   return (
     <PageLayout>
@@ -141,11 +145,17 @@ export default function Tinkering({ projects }: Props) {
                       className="flex-1"
                     >
                       <div
-                        className={`border bg-[#FAFAFA] dark:bg-[#191919] border-[#F5F5F5] dark:border-[#2A2A2A] rounded-2xl p-5 min-w-[250px] transition-all duration-300 ${
-                          highlightedProjectId === project.id
-                            ? "ring-2 ring-offset-2 ring-blue-500 ring-offset-[#FAFAFA] dark:ring-offset-[#191919]"
-                            : ""
-                        }`}
+                        className={`
+                          border bg-[#FAFAFA] dark:bg-[#191919]
+                          border-[#F5F5F5] dark:border-[#2A2A2A]
+                          rounded-2xl p-5 min-w-[250px]
+                          transition-all duration-300
+                          ${
+                            highlightedProjectId === project.id
+                              ? "ring-2 ring-offset-2 ring-blue-500 ring-offset-[#FAFAFA] dark:ring-offset-[#191919]"
+                              : ""
+                          }
+                        `}
                       >
                         <div className="flex items-center mb-2">
                           <h3 className="text-lg font-serif font-medium">
