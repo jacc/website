@@ -5,6 +5,7 @@ interface TinkeringProject {
   date: string;
   tags: string[];
   link?: string;
+  links?: { [key: string]: string }[];
   isActive?: boolean;
 }
 

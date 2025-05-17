@@ -14,6 +14,7 @@ interface Props {
     date: string;
     tags: string[];
     link?: string;
+    links?: { [key: string]: string }[];
     isActive?: boolean;
   }[];
 }
@@ -190,6 +191,28 @@ export default function Tinkering({ projects }: Props) {
                           >
                             View Project →
                           </a>
+                        )}
+                        {project.links && project.links.length > 0 && (
+                          <div className="mt-4 flex flex-row gap-2">
+                            {project.links.map((linkObj, index) => {
+                              const linkKey = Object.keys(linkObj)[0];
+                              const linkValue = linkObj[linkKey];
+                              return (
+                                <a
+                                  key={`${project.id}-link-${index}-${linkKey}`}
+                                  href={linkValue}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-sm text-blue-600 hover:underline inline-block"
+                                >
+                                  {/* Capitalize first letter of linkKey */}
+                                  {linkKey.charAt(0).toUpperCase() +
+                                    linkKey.slice(1)}{" "}
+                                  →
+                                </a>
+                              );
+                            })}
+                          </div>
                         )}
                       </div>
                     </motion.div>
