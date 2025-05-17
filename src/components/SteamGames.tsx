@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SteamGame } from "@/server/steam";
 import React from "react";
+import StyledLink from "./StyledLink";
 
 type SteamGamesProps = {
   games: SteamGame[];
@@ -22,12 +23,8 @@ const SteamGames: React.FC<SteamGamesProps> = ({ games }) => {
   }
 
   const gameElements = games.map((game) => (
-    <Link
-      key={game.appid}
-      href="/shelf"
-      className="underline underline-offset-2 decoration-zinc-500/50 hover:text-zinc-600 dark:hover:text-zinc-400 transition-colors"
-    >
-      {game.name}
+    <Link key={game.appid} href="/shelf" passHref legacyBehavior>
+      <StyledLink>{game.name}</StyledLink>
     </Link>
   ));
 

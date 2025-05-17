@@ -1,5 +1,6 @@
 import React from "react";
 import { HardcoverBook } from "@/server/hardcover";
+import StyledLink from "./StyledLink";
 
 type KindleBooksProps = {
   books: HardcoverBook[];
@@ -22,21 +23,14 @@ const KindleBooks: React.FC<KindleBooksProps> = ({ books }) => {
   }
 
   const bookElements = books.map((book) => (
-    <span key={book.title}>
-      <a
-        href={book.link}
-        target="_blank"
-        rel="noopener noreferrer"
-        className=""
-      >
-        {book.progress}% of the way through{" "}
-        <span className="italic font-serif text-sm underline underline-offset-2 decoration-zinc-500/50 pr-0.5">
-          {book.title}
-        </span>
-        &nbsp;by&nbsp;
-        {book.authors.join(", ")}
-      </a>
-    </span>
+    <>
+      {book.progress}% of the way through{" "}
+      <StyledLink key={book.title} href={book.link}>
+        <span className="italic font-serif text-sm pr-0.5">{book.title}</span>
+      </StyledLink>
+      &nbsp;by&nbsp;
+      {book.authors.join(", ")}
+    </>
   ));
 
   return (

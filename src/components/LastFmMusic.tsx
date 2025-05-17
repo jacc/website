@@ -1,4 +1,5 @@
 import React from "react";
+import StyledLink from "./StyledLink";
 
 type LastFmMusicProps = {
   music: Array<[string, string]>;
@@ -20,15 +21,9 @@ const LastFmMusic: React.FC<LastFmMusicProps> = ({ music }) => {
   }
 
   const musicElements = music.map(([artist, url]) => (
-    <a
-      key={url}
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="underline underline-offset-2 decoration-zinc-500/50"
-    >
+    <StyledLink key={url} href={url}>
       {artist}
-    </a>
+    </StyledLink>
   ));
 
   return (

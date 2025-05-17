@@ -9,7 +9,7 @@ interface PageLayoutProps {
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
   return (
-    <main className="mx-auto max-w-xl px-3 pt-18 pb-16">
+    <main className="mx-auto max-w-xl px-3 pt-10 md:pt-18 pb-16">
       <motion.div
         className="flex flex-col gap-4"
         initial="hidden"

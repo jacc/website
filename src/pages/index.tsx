@@ -13,6 +13,8 @@ import Footer from "@/components/Footer";
 import PageLayout from "@/components/PageLayout";
 import clsx from "clsx";
 import { useLanyardWS } from "use-lanyard";
+import { GithubIcon, Linkedin } from "lucide-react";
+import StyledLink from "@/components/StyledLink";
 
 type Props = {
   steam: SteamRecentGamesResponse;
@@ -53,12 +55,14 @@ export default function Home(props: Props) {
               // Thank you Shayan / https://userjot.com
               className="p-0.5 rounded-full border shrink-0 shadow-sm border-gray-200"
             />
-            <div
-              className={clsx(
-                "absolute bottom-0.5 left-14.5 w-4 h-4 border-2 border-white dark:border-[#0A0A0A] rounded-full shadow-sm transition-colors duration-500",
-                getStatusColor(status, "background")
-              )}
-            ></div>
+            {status !== "offline" && (
+              <div
+                className={clsx(
+                  "absolute bottom-0.5 left-14.5 w-4 h-4 border-2 border-white dark:border-[#0A0A0A] rounded-full shadow-sm transition-colors duration-500",
+                  getStatusColor(status, "background")
+                )}
+              ></div>
+            )}
           </div>
 
           <h1 className="text-2xl font-bold font-serif">
@@ -122,19 +126,34 @@ export default function Home(props: Props) {
             <span className="font-serif italic text-sm">@lafond</span> -
             I&apos;m currently <Status status={status} />.
           </motion.p>
-          <motion.ul
-            className="text-base dark:text-zinc-300 font-sans list-disc"
-            variants={item}
-          >
-            Other than that, I&apos;m scattered across the internet. Find me
-            here:
-            <motion.li variants={item}>
-              <a href="https://github.com/jacc">GitHub</a>
-            </motion.li>
-            <motion.li variants={item}>
-              <a href="https://www.linkedin.com/in/jacklafond/">LinkedIn</a>
-            </motion.li>
-          </motion.ul>
+          <motion.div variants={item} className="flex flex-col gap-2">
+            <p className="text-base dark:text-zinc-300 font-sans">
+              Other than that, I&apos;m scattered across the internet. Find me
+              here:
+            </p>
+            <div className="flex gap-4">
+              <StyledLink
+                href="https://github.com/jacc"
+                icon={GithubIcon}
+                intent="social"
+                isAnimated
+                animationVariants={item}
+                ariaLabel="Visit my GitHub profile"
+              >
+                GitHub
+              </StyledLink>
+              <StyledLink
+                href="https://www.linkedin.com/in/jacklafond/"
+                icon={Linkedin}
+                intent="social"
+                isAnimated
+                animationVariants={item}
+                ariaLabel="Visit my LinkedIn profile"
+              >
+                LinkedIn
+              </StyledLink>
+            </div>
+          </motion.div>
           <Footer status={status} />
         </motion.div>
       </motion.div>

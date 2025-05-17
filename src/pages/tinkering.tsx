@@ -89,7 +89,7 @@ export default function Tinkering({ projects }: Props) {
         </motion.div>
         <div className="relative flex">
           {/* SVG Patterned Vertical Line */}
-          <div className="absolute inset-y-0 left-0 w-1.5 pointer-events-none z-0">
+          <div className="absolute inset-y-0 left-0 w-3 pointer-events-none z-0">
             <svg className="h-full w-full" aria-hidden="true">
               <defs>
                 <pattern
