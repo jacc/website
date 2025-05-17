@@ -135,7 +135,7 @@ export default function Home(props: Props) {
               <a href="https://www.linkedin.com/in/jacklafond/">LinkedIn</a>
             </motion.li>
           </motion.ul>
-          <Footer />
+          <Footer status={status} />
         </motion.div>
       </motion.div>
     </PageLayout>

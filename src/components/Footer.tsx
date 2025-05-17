@@ -8,11 +8,15 @@ import { motion } from "framer-motion";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  status: string;
+}
+
+const Footer: React.FC<FooterProps> = ({ status }) => {
   const [date, setDate] = useState<dayjs.Dayjs | null>(null);
 
   useEffect(() => {
-    setDate(dayjs().tz("America/New_York")); // Set initial time on client
+    setDate(dayjs().tz("America/New_York"));
     const update = () => {
       setDate(dayjs().tz("America/New_York"));
     };
@@ -27,7 +31,7 @@ const Footer: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{
-        delay: 1.2, // This delay ensures the footer appears after the main content animation
+        delay: 1.2,
         duration: 0.5,
         ease: "easeOut",
       }}
@@ -37,7 +41,7 @@ const Footer: React.FC = () => {
         <div className="flex justify-center items-center gap-1">
           <ClockIcon className="w-3 h-3" />
           {date ? date.format("h:mm:ss A") : "--:--:-- --"}{" "}
-          {date && date.hour() <= 1 && date.hour() < 6
+          {date && (date.hour() <= 1 || date.hour() < 6) && status === "offline"
             ? " (I'm probably asleep)"
             : ""}
         </div>
