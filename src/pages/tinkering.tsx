@@ -71,7 +71,7 @@ export default function Tinkering({ projects }: Props) {
   }, [projects, typeof window !== "undefined" ? window.location.hash : ""]); // Re-run if projects or hash changes
 
   return (
-    <PageLayout>
+    <PageLayout showBackButton={true}>
       <motion.div variants={group}>
         <motion.h1
           variants={item}

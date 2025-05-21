@@ -4,7 +4,6 @@ import { getBooks } from "@/server/books";
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArchiveIcon } from "lucide-react";
 
 interface Movie {
   title: string;
@@ -76,12 +75,12 @@ export default function Shelf(props: Props) {
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <PageLayout>
-      <div className="sticky shrink-0 ">
+    <PageLayout showBackButton={true}>
+      {/* <div className="sticky shrink-0 ">
         <div className="p-0.5 rounded-full  shrink-0 shadow-sm ring ring-gray-200 dark:ring-offset-[#0A0A0A] ring-offset-2 bg-[#98714E] w-[75px] h-[75px] flex items-center justify-center">
           <ArchiveIcon className="w-8 h-8 text-[#ffffff] dark:text-[#0A0A0A]" />
         </div>
-      </div>
+      </div> */}
       <h1 className="text-2xl font-bold font-serif">
         Jack&apos;s Digital Shelf
       </h1>
