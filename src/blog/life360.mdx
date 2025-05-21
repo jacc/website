@@ -1,0 +1,110 @@
+---
+title: "Building a dangerous driving leaderboard"
+excerpt: "...and then getting offered a job?"
+date: 2022-10-13
+tags: ["reversing"]
+header: "/images/banners/split.png"
+addendum: "Life360's API has since been decomissioned, and the site was taken down in late 2023 due to compatability issues. It was a great run regardless and Alistair and I really enjoyed building it - enjoy the story of how it came to be regardless"
+---
+
+A little over a year ago, I had reversed Life360's API & built a small program for my friends and I to see who drives the fastest (safely). What I didn't know at the time was this would eventually go viral on TikTok with 2+ million views and garner attention from a product manager & the CEO himself at Life360. Sit back and grab a snack - here's the story of how I accidentally encouraged speeding and almost got a job because of it.
+
+## Part 1: The Speed Leaderboard
+
+Last September, some of my closest internet friends & I decided to make a Life360 circle. If you're unfamiliar with Life360, it's an app commonly used by families to track children as they become new drivers. A "circle" is essentially a group of people that can see each other's locations. I don't entirely have a reason for _why_ we made it; it just seemed like a fun thing to do at the time. A core part of Life360 is the driving tracking - it allows users of the app to track start/end time, top speed, and a few other stats (times distracted, speeding, etc).
+
+After setting it up, the programmer part of my brain immediately kicked in: this location data was crazy specific and almost borderline scary. But there had to be a way to access this outside of the app, right?
+
+![Jack discovering Life360 has an API](/images/api.png)
+
+...well... they sort of did.
+
+From what I could see online, they definitely did have some type of API - albeit not a public one. So I did what every handy developer does: I fired up Charles, and started reversing the app's requests.
+
+### Breaking (and entering) through their OAuth
+
+To be entirely honest, I was fully expecting a challenge trying to spoof requests. But this was really the easiest part - Life360 had a Cloudfront URL that upon logging in sent a few things: `Authorization`, `User-Agent`, `Accept`, `X-Device-Id`, along with a stringified `username` and `password`.
+
+What was returned was a `Bearer` token to access the API like the user. We were in. Now the fun part: writing an actual implementation of the API in the form of a speed leaderboard.
+
+### Poking at requests
+
+Disclaimer: This speed leaderboard was not used for anything but a proof of concept - and by no means do I endorse speeding. Drive safe & not stupid.
+
+Now that I had been able to spoof requests like the app, I started thinking about an application to all of this data. And boy was it a **LOT** of data.
+
+Life360 passes us a few important things in a Circle (their term for a group): a list of all users, a list of all locations, and a list of all trips. the first two are pretty self explanatory, but trips are a bit more interesting.
+
+![An excerpt of a trip object](/images/trip.png)
+
+Inside of a trip object, Life360 provides us a lot of data that is generally locked behind a paywall. `rapidAccelerationCount`, `hardBreakingCount`, `speedingCount`, `distractedCount`, `score` were all locked behind Life360's subscription service.
+
+While that was interesting (and we do come to use that a little later on), the golden ticket was `startTime`, `endTime`, `speedingCount`, `distractedCount`, `score`. These data points provided us everything I needed to make a leaderboard. The main problem that stopped me from working on the leaderboard was school - I had discovered this at a time where i had 2 exams within a week and while I was itching to develop it, ultimately I had to take a pause and handle some stuff. But the antipation of it all almost made it better.
+
+The first thing I did was make a quick Python handler to handle API requests. Before getting any information, I had to get my personal user object and find the `circles` object that had a unique UUID for the circle. From there, I could get all the trips, locations, and users in the circle.
+
+![A picture of the Python handler I used to make API request to Life360](/images/handler.png)
+
+The requests were pretty straight forward: it included the `Bearer` token I got earlier in the header, and all requests were prefixed with our Circle's UUID. The absolute only caveat to this handler is how I handled getting the top drive speeds. For each user in the circle, I had to request their drive history, then sort & return it in a parsable object.
+
+Normally this wouldn't be a problem, but we had 15 people in the circle and running 15 API requests asynchronously was bound to flag something on their side. Except it didn't (somehow). I didn't extensively test Life360's API request ratelimits, but thankfully I never hit a problem with retrieving that much information at once.
+
+After a few hours of hacking away at the request handler (and employing the help of my friend Mustafa for the sorted lambda function to get the top drive), I finally had something working. I present to you: the first edition of the speed leaderboard.
+
+![First iteration of the leaderboard](/images/firstspeed.png)
+
+I'm aware it doesn't look like much. But it was a start. Within a few minutes, I customized the look, made it all nice, Tweeted it out, and went to class. I was pretty proud of myself for getting it done and I thought it would be a cool thing to share online, but didn't really think much past Tweeting it.
+
+![Jack tweeting about the speed leaderboard](/images/initialtweet.png)
+
+Until I got a notification about a message request on Twitter.
+
+## Am I going to get sued for this?
+
+![Tweet from PM](/images/contact.png)
+
+..uh oh.
+
+Initially, my first reaction to this was awe. It had been the first time I had done something that had gotten actual engagement from the company I was building the tool for. But that awe quickly turned into fear as I realized I had violated almost every single part of their Terms of Service, specifically not using the app or it's data for anything that could cause bodily harm (and showing off the top speeds in a leaderboard fashion definitely could have violated that)
+
+Long story short, it ended up being okay! I talked with the PM for almost 30 minutes and he was thoroughly impressed with how much effort I put into reversing the app. We swapped contact info, he promised to let me know about open internships, and we parted ways. I figured the story would end there, but this was just the beginning.
+
+## Part 2: TikTok Virality (and the creation of Stats360.co)
+
+Almost 6 months later, I was scrolling through TikTok when I saw a video about a girl and her friends making a Life360 circle to track their speeds and where they went.
+
+I thought to myself, "wow! I have a similar experience with that, let me tell people about the bot I made".
+
+[View TikTok Video](https://www.tiktok.com/embed/7073848276545555755)
+
+Within 24 hours, the video had over 1 million views, 100,000 likes and tens of thousand of comments asking how people could use it. Considering that I only had a Discord bot that was hardcoded to my circle, I needed to fully scale this up. But that wasn't an easy task - we'd have to store a lot of data.
+
+I had a few options: I could either store all the data in a database and make a web app to display it, or I could make a web app that directly queried the API. I opted for the latter, as it would be faster to develop and would be able to scale better. I also didn't want to have to hassle with data storage policies, so direct requests were all around the better option.
+
+### Enter: Alistair Smith
+
+Unfortunately for me, I had just begun really getting deep into Next.js and had no idea where to start building this. But as always, one of my best friends Alistair Smith heard about the TikTok and wanted to help scale it into the real deal.
+
+Within 48 hours, we had an incredibly built-to-scale solution that we were ready to broadcast on TikTok. The website was built in Next.js with Tailwind, used Redis to store authentication tokens (so logins could persist), used client-sided requests so that we didn't have a central server that would get limited by Life360's API. We also used a custom API handler in TypeScript to request the information, which was a lot faster than the Python handler I had made earlier. The website was also fully responsive, so it could be used on mobile devices. Overall, it was incredibly impressive and especially so considering it was made in 48 hours.
+
+I bought the domain **stats360.co**, added Google Analytics to it, and we shipped it. I made 3 TikToks about it, which brought the project another 300,000 combined views on TikTok. We actually hit a problem with Vercel early on and served too many images under their network, but the fantastic Lee Robinson on their DevRel got it fixed insanely quick.
+
+### Life360 hears about it (again)
+
+After the website released, I actually had the same PM reach out to me because one of my TikToks came up on his For You page.
+
+![Second tweet from PM](/images/roundtwo.png)
+
+This wasn't the end of the contact from Life360 - Life360's CEO Chris Hulls actually commented on the video offering me a job.
+
+![Life360's CEO commenting on my TikTok](/images/ceo.png)
+
+This was, by far, the best moment of the project for me. I remember I was sitting in my bed at 11pm replying to comments from people, when I saw someone verified commented. At first, I thought it was an impersonation account, but after doing a bit of independent investigation I realized this was the real deal. I commented back with my email, and actually later followed him on Twitter where we talked later on.
+
+### So I work there now... right?
+
+Actually, no! Long story short, I did get to talk with the PM again (this time with Alistair present) and we got to see a ton of new features that they were working on, and we got to explain the infrastructure of our app (and he said their engineering team was a fan of it!) - but between school, other obligations, and life as a whole, I never followed up fully with Chris and never secured the job. Which is more than okay, as the feat that he got to see it in the first place is more than enough.
+
+## Part 3: Happily Ever After
+
+In the end, I didn't get to work at Life360, but I did make an impact in hundreds of thousands of users who loved using the website among their friends. We got to add a ton of features that weren't in the initial bot version among my friends, and I also learned a lot along the process that I still use in my current side projects today. TikTok is an incredibly powerful tool for marketing, and it shows that any kid that can hack something together be truly put in the spotlight in no time.

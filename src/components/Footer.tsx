@@ -49,12 +49,16 @@ const Footer: React.FC<FooterProps> = ({ status }) => {
         </div>
       </div>
       <div className="flex items-left justify-left gap-1 mt-1">
-        <NextLink href="/shelf" passHref legacyBehavior>
+        <NextLink href="/shelf" passHref>
           <StyledLink intent="navigation">Digital Shelf</StyledLink>
         </NextLink>
         <span>⊹</span>
-        <NextLink href="/tinkering" passHref legacyBehavior>
+        <NextLink href="/tinkering" passHref>
           <StyledLink intent="navigation">Tinkering</StyledLink>
+        </NextLink>
+        <span>⊹</span>
+        <NextLink href="/blog" passHref>
+          <StyledLink intent="navigation">Blog</StyledLink>
         </NextLink>
       </div>
     </motion.footer>

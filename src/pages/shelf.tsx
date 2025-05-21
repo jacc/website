@@ -96,7 +96,6 @@ export default function Shelf(props: Props) {
             key={`${item.type}-${item.title}`}
             href={item.type === "movie" ? item.link : "#"}
             passHref
-            legacyBehavior
           >
             <a
               className={`relative aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${

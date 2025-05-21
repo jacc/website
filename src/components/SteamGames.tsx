@@ -23,7 +23,7 @@ const SteamGames: React.FC<SteamGamesProps> = ({ games }) => {
   }
 
   const gameElements = games.map((game) => (
-    <Link key={game.appid} href="/shelf" passHref legacyBehavior>
+    <Link key={game.appid} href="/shelf" passHref>
       <StyledLink>{game.name}</StyledLink>
     </Link>
   ));
