@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       "avatars.githubusercontent.com",
       "a.ltrbxd.com",
       "images-na.ssl-images-amazon.com",
+      "assets.hardcover.app",
     ],
   },
 };

@@ -29,7 +29,7 @@ const KindleBooks: React.FC<KindleBooksProps> = ({ books }) => {
         <span className="italic font-serif text-sm pr-0.5">{book.title}</span>
       </StyledLink>
       &nbsp;by&nbsp;
-      {book.authors.join(", ")}
+      {book.authors && book.authors.join(", ")}
     </>
   ));
 

@@ -1,9 +1,9 @@
 import PageLayout from "@/components/PageLayout";
 import { getLetterboxdMovies } from "@/server/letterboxd";
-import { getBooks } from "@/server/books";
 import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { getCompletedBooks } from "@/server/hardcover";
 
 interface Movie {
   title: string;
@@ -25,6 +25,7 @@ interface Book {
   completedDate?: string;
   rating?: number;
   review?: string;
+  link: string;
 }
 
 type Props = {
@@ -34,7 +35,7 @@ type Props = {
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const movies = await getLetterboxdMovies();
-  const books = getBooks();
+  const books = await getCompletedBooks();
 
   return {
     props: {
@@ -76,11 +77,6 @@ export default function Shelf(props: Props) {
 
   return (
     <PageLayout showBackButton={true}>
-      {/* <div className="sticky shrink-0 ">
-        <div className="p-0.5 rounded-full  shrink-0 shadow-sm ring ring-gray-200 dark:ring-offset-[#0A0A0A] ring-offset-2 bg-[#98714E] w-[75px] h-[75px] flex items-center justify-center">
-          <ArchiveIcon className="w-8 h-8 text-[#ffffff] dark:text-[#0A0A0A]" />
-        </div>
-      </div> */}
       <h1 className="text-2xl font-bold font-serif">
         Jack&apos;s Digital Shelf
       </h1>
@@ -94,40 +90,30 @@ export default function Shelf(props: Props) {
         {allMedia.map((item) => (
           <Link
             key={`${item.type}-${item.title}`}
-            href={item.type === "movie" ? item.link : "#"}
-            passHref
+            href={item.type === "movie" ? item.link : item.link}
+            className={`relative aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
+              item.isCurrentlyReading
+                ? "ring-2 ring-blue-500 ring-offset-2"
+                : ""
+            }`}
+            target={item.link.startsWith("http") ? "_blank" : undefined}
+            rel={
+              item.link.startsWith("http") ? "noopener noreferrer" : undefined
+            }
           >
-            <a
-              className={`relative aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
-                item.isCurrentlyReading
-                  ? "ring-2 ring-blue-500 ring-offset-2"
-                  : ""
-              }`}
-              target={
-                item.type === "movie" && item.link.startsWith("http")
-                  ? "_blank"
-                  : undefined
-              }
-              rel={
-                item.type === "movie" && item.link.startsWith("http")
-                  ? "noopener noreferrer"
-                  : undefined
-              }
-            >
-              {(item.type === "movie" ? item.posterUrl : item.coverUrl) && (
-                <Image
-                  src={item.type === "movie" ? item.posterUrl! : item.coverUrl!}
-                  alt={item.title}
-                  fill
-                  className="object-cover"
-                />
-              )}
-              {(item.rating || (item.type === "movie" && item.rating)) && (
-                <div className="absolute top-2 right-2 bg-[#FAFAFA] border border-zinc-500/50 text-[#525252] text-xs px-2 py-1 rounded-full backdrop-blur-sm">
-                  {item.rating} ⭐
-                </div>
-              )}
-            </a>
+            {(item.type === "movie" ? item.posterUrl : item.coverUrl) && (
+              <Image
+                src={item.type === "movie" ? item.posterUrl! : item.coverUrl!}
+                alt={item.title}
+                fill
+                className="object-cover"
+              />
+            )}
+            {(item.rating || (item.type === "movie" && item.rating)) && (
+              <div className="absolute top-2 right-2 bg-[#FAFAFA] border border-zinc-500/50 text-[#525252] text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+                {item.rating} ⭐
+              </div>
+            )}
           </Link>
         ))}
       </div>
