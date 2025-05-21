@@ -35,7 +35,7 @@ export default function BlogIndex({ posts }: BlogIndexProps) {
               {post.tags && post.tags?.length > 0 && " · "}
               {post.tags &&
                 post.tags?.map((tag) => (
-                  <StyledLink key={tag} href={`/tags/${tag}`}>
+                  <StyledLink key={tag} href={`/blog/tags/${tag}`}>
                     #{tag}
                   </StyledLink>
                 ))}

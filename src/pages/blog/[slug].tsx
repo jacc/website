@@ -32,10 +32,11 @@ export default function BlogPage({ source }: BlogPageProps) {
           {source.frontmatter.tags && source.frontmatter.tags.length > 0 && (
             <>
               {" · "}
-              {source.frontmatter.tags.map((tag: string) => (
-                <StyledLink key={tag} href={`/tags/${tag}`}>
-                  #{tag}
-                </StyledLink>
+              {source.frontmatter.tags.map((tag: string, index: number) => (
+                <span key={tag}>
+                  <StyledLink href={`/blog/tags/${tag}`}>#{tag}</StyledLink>
+                  {index < source.frontmatter.tags.length - 1 && " "}
+                </span>
               ))}
             </>
           )}

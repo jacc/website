@@ -1,0 +1,106 @@
+---
+title: "Seek, and you shall F!ND"
+excerpt: "How Team F!ND won our first ever Search Party CTF"
+date: "2024-04-20"
+tags: ["cybersecurity", "osint", "ctf"]
+---
+
+A few weeks ago, my coworker and friend [Alexa](https://www.linkedin.com/in/alexa-feminella-9bb1b5241/) approached me about doing a capture the flag event that was hosted by Trace Labs - Search Party, a 4 hour OSINT-based CTF where you search for information on missing person cases. I had never done a publicly organized CTF like this before, but I've always been incredibly interested in OSINT (shoutout SIA!), so I gladly purchased a ticket and signed up.
+
+<p class="bg-green-100 border-2 border-green-600 p-4 max-w-5xl rounded-lg">
+  {`A quick dictionary for the uninitiated:`}
+  <br />
+  {`- OSINT: Open Source Intelligence, the practice of collecting information from publicly available sources.`}
+  <br />
+  {`- CTF: Capture the Flag, a competition where you solve challenges to find "flags" and score points.`}
+  <br />
+  {`- flag: A piece of information that you find that is worth points.`}
+  <br />
+  {`- MP: Missing Person, the subject of the flags you're trying to find.`}
+
+</p>
+
+Our team consisted of Alexa, our wonderful professor [Angela Ramos](https://www.linkedin.com/in/angelaramos2/), and [Osama](https://www.linkedin.com/in/osama-shilbayeh/) (who was recruited by Angela). Angela is a TL veteran, having done a few of these events before, and Osama is a fellow student of ours.
+
+We were fortunately able to use the University of Tampa's SOC for the event, which gave us an additional advantage of having a large room to spread out in and collaborate .. and also have two more monitors to use. For much of this event, I was solely running on a Dunkin coffee, a Celsius, and a single cookie. The conditions couldn't have been better, and we were ready to go when the time hit 11:00 AM.
+
+<p class="bg-blue-100 border-2 border-blue-600 p-4 max-w-5xl rounded-lg">
+  {`For the safety, confidentiality and privacy of the families, much
+  of the information about the flags related to the missing persons (MPs) will
+  be redacted or vague.`}
+</p>
+
+The first hour or so was a bit of a learning curve for us. We were trying to figure out how to best divide and conquer the flags, and we were also trying to figure out how to best communicate with each other. I started with MP2, Alexa started with MP1, Osama was also looking at MP1, and Angela was running around making sure everyone else was on track. Two of the MPs were abroad while two were in the US, so we decided to start tackling the US-based MPs first as we thought it would be easier to source information -- spoiler alert - it wasn't!
+
+## How I tackled the MPs
+
+I started by doing what I always do with any OSINT task - I fire up trusty ol' Google and start dorking. The first hour was spent mostly collecting information. I gathered a few news articles related to the situation of the MP (which I submitted a few for flags and they were denied, oh well), and what that gave me was a general base of information I needed to start my next move. Without knowing a general area or location that the MP was in, I wasn't going to be able to filter through social media profiles. My immediate next move was to use Google Dorks across all of the major social media platforms (Twitter, Facebook, TikTok, YouTube, etc.) to see if there's any profiles with names that match the MPs. I'm aware that the [OSINTFramework](https://osintframework.com) provides a great list of tools that I can use to search usernames, etc, but I've found that being able to refine my dorks allows me to move faster.
+
+This was the major key that allowed us to gain a good base of points in the first hour. By finding rough social media profiles, we were able to start finding family members, friends, and other people that were associated with the MPs. Remember, Trace Labs grants points for every key family member that might not specifically be mentioned in a news article or other source. Because we had established a base of who had already been mentioned in the news, we were able to quickly verify and submit those flags.
+
+## MP1
+
+MP1 was absolutely one of the more challenging MPs in the lab. We were able to grab a single flag for them related to a family member that hadn't been mentioned in a news article, but after spending around an hour on them combined, we realized that our attention probably should be directed elsewhere. Most of the articles we had found were dead ends, not valid for flags, or just irrelevant information - and while we wanted to do more, we had to make the decision to move on.
+
+## MP2
+
+MP2 was my main focus for the good first chunk of the event. Most of the flags that we found were smaller wins, but all in all I'm still super proud of what we found. We initially gathered a list of friends and family that were mentioned in news articles related to them, and then started to pivot off of that. We managed to find around 15 social media profiles of associated friends and family members, and most of those netted us a few flags. Alexa was incredibly helpful during MP2, as we were trying correlate multiple people at the same time, and without her help I definitely would have dropped the ball on a few of the flags.
+
+A pro tip for this MP as well - our friend [TruePeopleSearch](https://truepeoplesearch.com). People heavily debate the ethics of personal data aggregators, but running most of the MP's family members through TruePeopleSearch netted us a few key points of information that we could use to confirm if they had any relation to them or not. While we didn't find any major information, it was a great way to confirm that we were on the right track.
+
+## MP3
+
+MP3, like MP1, was one that a bit of time was invested into but not much information was found. Given that MP3 was one of the abroad MPs, it was incredibly hard working through a language barrier with limited information. Regardless, I was able to pick up two flags here. Using information about the languages they spoke, and the information given about their disapperance, I was able to find a Facebook profile that matched the description and grabbed a flag for it.
+
+While on Facebook, I used some search wizarding and found an announcement post related to the MP's disappearance - and on this post was a comment that had mentioned the MP had been spotted in a location two hours north of where they disappeared from. I frantically combed through the poorly translated posts to see if I could find this information anywhere, and when I couldn't I knew I had another flag.
+
+## MP4
+
+MP4 was the hardest hit for us on points, with the majority of our 29 submissions coming from these flags. Angela initially started working on this in hour 1, and by hour 3 most of us were completely focused on it. What we found was the MP had a very active social media presence, despite being missing, and we were able to find a lot of information about them in a short amount of time.
+
+The first clue that we had gathered was a Facebook account with a misspelled name and similiar picture to the one posted in the missing persons report. The Facebook account itself hadn't been active recently, but we were able to rule out a more specific location than was given in the report. From there, we went to TikTok - which was the beginning of a goldmine for us. From TikTok, we found a post 8 days before the missing person report with the exact same picture, and then a post less than a week old with a picture of the MP that we were able to verify. This counted for Advancing the Timeline, which netted us +700 points. We then checked the TikTok reposts - he had reposted something _literally yesterday_. Right there, another +700 points (this will be a recurring theme.)
+
+#### The Recent Friends Pivot
+
+When we went back to the Facebook profile we found, we obviously started scanning the friends list. In that list, we found numerous profiles that had the same name, location, and few key friends. Why the MP made multiple profiles? Not sure - but what we did realize is that Facebook indicates when you've added someone within the last three weeks - this was the Recent Friends tab. We noted that there were two different people that the MP had added that had correlated across _every single account_. Because of this, we were able to grab multiple +700 points for each account that had interacted.
+
+In these recent friends that we had found, I had also noticed that all of the correlated friends had a location that was far more specific than what had been posted in any report. This was a key point we had used to find more information about the MP's hometown and interests, something that we wouldn't had been able to filter through and find without it.
+
+#### Other small MP4 wins
+
+Using Twitter's advanced search feature, I was able to correlate that the MP had been involved in a local sports club (which netted us a Basic Info flag), but was a bigger key into finding a Twitter profile referencing the same sport and sports club.
+
+## The Great Adjustment
+
+Time was up, we were in first with 7100 points, and we were absolutely ecstatic. After a few minutes, we started to see the chart adjust. We dropped from first to second, back to first, then back to second where we sat below Ghost Recon Unit. Flags were being reviewed by everyone, and while we were confident in our work, we weren't sure where we'd stack up after the adjustment. We were all a bit nervous, but regardless incredibly proud of what we had accomplished.
+
+After about 30 minutes, I checked the leaderboard again and saw that the chart had adjusted one last time - we were back in first. We had won.
+
+<div class="justify-center text-center">
+  ![Jack discovering Life360 has an API](/images/chart.png)
+  <span class="text-sm text-black/70">
+    Our standings throughout the game (pre-win) - as you can see, it definitely
+    took us a second to find our stride. (thanks Pigeon for the chart!)
+  </span>
+</div>
+
+## Conclusion, Reflections and Shoutouts
+
+This event was an incredible experience for me. I learned so much about how to do OSINT in a time-constrained environment, and I learned a lot about how to work with a team in a high-stress situation. I'm incredibly grateful for the opportunity to have done this event, and I'm looking forward to doing more in the future. It's pretty wild to me that this information might make the difference in finding someone's loved one, and it makes me so incredibly proud to be in a community of peers that are so dedicated to helping others.
+
+I also want to give a few shoutouts to some people that made this event as great as it was:
+
+- [Alexa](https://www.linkedin.com/in/alexa-feminella-9bb1b5241/) - Thank you for inviting me to this event and for being an incredible teammate!
+- [Angela](https://www.linkedin.com/in/angelaramos2/) - For being an awesome mentor, professor and teammate. I learned so much from you in this event, and I'm so grateful for your guidance!
+- [Osama](https://www.linkedin.com/in/osama-shilbayeh/) - Clutching up on the flags in the last 30 minutes - without your finds on MP4, we might have not placed first.
+- [Pigeon]() - Our incredible judge for the event. Thank you for being so helpful, kind and communicative about the flags and cheering us on through the entire process.
+- [Trace Labs](https://tracelabs.org) - For hosting the event!
+- Ghost Recon Unit, Greedo Shot First, Cyber Dragons and the other incredible teams on the podium - it was an honor to compete with you all.
+- The other UT teams that competed - it was great to see so many of us out there competing and doing so well.
+
+<div class="flex justify-center items-center flex-col">
+  ![Team F!ND](/images/team.jpg)
+  <span class="text-sm text-black/70">
+    Team F!ND - Osama, Angela, Alexa, and myself. 🥇
+  </span>
+</div>
