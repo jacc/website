@@ -5,7 +5,7 @@ import { LucideProps } from "lucide-react";
 import clsx from "clsx";
 
 const styledLinkVariants = cva(
-  "transition-colors duration-150 ease-in-out", // Base classes
+  "transition-colors duration-150 ease-in-out hover:cursor-pointer", // Unfortunately have to fake link it due to hydration errors
   {
     variants: {
       intent: {
@@ -83,18 +83,18 @@ const StyledLink = React.forwardRef<HTMLAnchorElement, StyledLinkProps>(
 
     if (isAnimated) {
       return (
-        <motion.a {...anchorProps} variants={animationVariants} ref={ref}>
+        <motion.span {...anchorProps} variants={animationVariants} ref={ref}>
           {Icon && <Icon className={iconClassName} />}
           {children}
-        </motion.a>
+        </motion.span>
       );
     }
 
     return (
-      <a {...anchorProps} ref={ref}>
+      <span {...anchorProps} ref={ref}>
         {Icon && <Icon className={iconClassName} />}
         {children}
-      </a>
+      </span>
     );
   }
 );
