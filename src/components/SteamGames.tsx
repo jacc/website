@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { SteamGame } from "@/server/steam";
 import React from "react";
 import StyledLink from "./StyledLink";
@@ -23,9 +22,9 @@ const SteamGames: React.FC<SteamGamesProps> = ({ games }) => {
   }
 
   const gameElements = games.map((game) => (
-    <Link key={game.appid} href="/shelf" passHref>
-      <StyledLink>{game.name}</StyledLink>
-    </Link>
+    <StyledLink key={game.appid} href="/shelf">
+      {game.name}
+    </StyledLink>
   ));
 
   return (

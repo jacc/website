@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import NextLink from "next/link";
 import { ClockIcon } from "lucide-react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -49,17 +48,17 @@ const Footer: React.FC<FooterProps> = ({ status }) => {
         </div>
       </div>
       <div className="flex items-left justify-left gap-1 mt-1">
-        <NextLink href="/shelf" passHref>
-          <StyledLink intent="navigation">Digital Shelf</StyledLink>
-        </NextLink>
+        <StyledLink href="/shelf" intent="navigation">
+          Digital Shelf
+        </StyledLink>
         <span>⊹</span>
-        <NextLink href="/tinkering" passHref>
-          <StyledLink intent="navigation">Tinkering</StyledLink>
-        </NextLink>
+        <StyledLink href="/tinkering" intent="navigation">
+          Tinkering
+        </StyledLink>
         <span>⊹</span>
-        <NextLink href="/blog" passHref>
-          <StyledLink intent="navigation">Blog</StyledLink>
-        </NextLink>
+        <StyledLink href="/blog" intent="navigation">
+          Blog
+        </StyledLink>
       </div>
     </motion.footer>
   );

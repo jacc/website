@@ -134,10 +134,10 @@ export default function Home(props: Props) {
             <div className="flex gap-4">
               <StyledLink
                 href="https://github.com/jacc"
-                icon={GithubIcon}
                 intent="social"
                 isAnimated
                 animationVariants={item}
+                icon={GithubIcon}
                 ariaLabel="Visit my GitHub profile"
               >
                 GitHub
