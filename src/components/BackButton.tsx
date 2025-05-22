@@ -1,17 +1,27 @@
-import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import React from "react";
+import { useRouter } from "next/router";
 
 interface BackButtonProps {
   href?: string;
   className?: string;
 }
 
-const BackButton: React.FC<BackButtonProps> = ({ href = "/", className }) => {
+const BackButton: React.FC<BackButtonProps> = ({ href, className }) => {
+  const router = useRouter();
+
+  const handleBack = () => {
+    if (href) {
+      router.push(href);
+    } else {
+      router.back();
+    }
+  };
+
   return (
-    <Link
-      href={href}
-      aria-label="Go back to homepage"
+    <button
+      onClick={handleBack}
+      aria-label="Go back"
       className={`
         group
         z-50
@@ -23,8 +33,8 @@ const BackButton: React.FC<BackButtonProps> = ({ href = "/", className }) => {
       `}
     >
       <ArrowLeft className="w-4 h-4 transition-transform duration-150 ease-in-out group-hover:-translate-x-0.5" />{" "}
-      Home
-    </Link>
+      Back
+    </button>
   );
 };
 
