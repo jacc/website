@@ -3,7 +3,9 @@ import fs from "fs";
 import path from "path";
 import { serialize } from "next-mdx-remote/serialize";
 import PageLayout from "@/components/PageLayout";
-import StyledLink from "@/components/StyledLink";
+import { PostPreview } from "@/components/PostPreview";
+import { motion } from "framer-motion";
+import { group } from "@/utilities/constants";
 
 interface BlogPost {
   title: string;
@@ -20,32 +22,26 @@ interface BlogIndexProps {
 export default function BlogIndex({ posts }: BlogIndexProps) {
   return (
     <PageLayout showBackButton>
-      <h1 className="text-2xl font-bold font-serif mb-4">Blog Posts</h1>
-      <div className="flex flex-col gap-6">
-        {posts.map((post) => (
-          <div key={post.slug} className="flex flex-col gap-1">
-            <StyledLink
-              href={`/blog/${post.slug}`}
-              className="text-lg font-serif"
-            >
-              {post.title}
-            </StyledLink>
-            <p className="text-sm text-zinc-500 dark:text-zinc-600">
-              {post.date}
-              {post.tags && post.tags?.length > 0 && " · "}
-              {post.tags &&
-                post.tags?.map((tag) => (
-                  <StyledLink key={tag} href={`/blog/tags/${tag}`}>
-                    #{tag}
-                  </StyledLink>
-                ))}
-            </p>
-            <p className="text-base dark:text-zinc-300 font-sans">
-              {post.excerpt}
-            </p>
-          </div>
-        ))}
-      </div>
+      <motion.div variants={group}>
+        <motion.h1
+          variants={group}
+          className="text-2xl font-bold font-serif mb-4"
+        >
+          Blog Posts
+        </motion.h1>
+        <div className="flex flex-col gap-6">
+          {posts.map((post) => (
+            <PostPreview
+              key={post.slug}
+              title={post.title}
+              excerpt={post.excerpt}
+              date={post.date}
+              tags={post.tags}
+              slug={post.slug}
+            />
+          ))}
+        </div>
+      </motion.div>
     </PageLayout>
   );
 }

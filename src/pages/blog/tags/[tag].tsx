@@ -3,7 +3,9 @@ import fs from "fs";
 import path from "path";
 import { serialize } from "next-mdx-remote/serialize";
 import PageLayout from "@/components/PageLayout";
-import StyledLink from "@/components/StyledLink";
+import { PostPreview } from "@/components/PostPreview";
+import { motion } from "framer-motion";
+import { group } from "@/utilities/constants";
 
 interface TagPageProps {
   posts: {
@@ -19,36 +21,21 @@ interface TagPageProps {
 export default function TagPage({ posts, tag }: TagPageProps) {
   return (
     <PageLayout showBackButton>
-      <div className="flex flex-col gap-4">
-        <h1 className="text-2xl font-bold font-serif">Posts tagged #{tag}</h1>
+      <motion.div variants={group} className="flex flex-col gap-4">
+        <motion.h1 variants={group} className="text-2xl font-bold font-serif">
+          Posts tagged #{tag}
+        </motion.h1>
         {posts.map((post) => (
-          <div key={post.slug} className="flex flex-col gap-1">
-            <StyledLink
-              href={`/blog/${post.slug}`}
-              className="text-lg font-serif"
-            >
-              {post.title}
-            </StyledLink>
-            <p className="text-sm text-zinc-500 dark:text-zinc-600">
-              {post.date}
-              {post.tags && post.tags.length > 0 && (
-                <>
-                  {" · "}
-                  {post.tags.map((tag: string, index: number) => (
-                    <span key={tag}>
-                      <StyledLink href={`/blog/tags/${tag}`}>#{tag}</StyledLink>
-                      {index < post.tags.length - 1 && " "}
-                    </span>
-                  ))}
-                </>
-              )}
-            </p>
-            <p className="text-base dark:text-zinc-300 font-sans">
-              {post.excerpt}
-            </p>
-          </div>
+          <PostPreview
+            key={post.slug}
+            title={post.title}
+            excerpt={post.excerpt}
+            date={post.date}
+            tags={post.tags}
+            slug={post.slug}
+          />
         ))}
-      </div>
+      </motion.div>
     </PageLayout>
   );
 }
