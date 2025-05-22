@@ -86,7 +86,7 @@ export default function Shelf(props: Props) {
         literature, and music. Below are some things I&apos;ve played, read, and
         watched recently.
       </p>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
         {allMedia.map((item) => (
           <Link
             key={`${item.type}-${item.title}`}
