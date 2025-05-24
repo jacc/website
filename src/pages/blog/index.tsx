@@ -6,6 +6,7 @@ import PageLayout from "@/components/PageLayout";
 import { PostPreview } from "@/components/PostPreview";
 import { motion } from "framer-motion";
 import { group } from "@/utilities/constants";
+import SEO from "@/components/SEO";
 
 interface BlogPost {
   title: string;
@@ -21,28 +22,34 @@ interface BlogIndexProps {
 
 export default function BlogIndex({ posts }: BlogIndexProps) {
   return (
-    <PageLayout showBackButton>
-      <motion.div variants={group}>
-        <motion.h1
-          variants={group}
-          className="text-2xl font-bold font-serif mb-4"
-        >
-          Blog Posts
-        </motion.h1>
-        <div className="flex flex-col gap-6">
-          {posts.map((post) => (
-            <PostPreview
-              key={post.slug}
-              title={post.title}
-              excerpt={post.excerpt}
-              date={post.date}
-              tags={post.tags}
-              slug={post.slug}
-            />
-          ))}
-        </div>
-      </motion.div>
-    </PageLayout>
+    <>
+      <SEO
+        title="Jack LaFond | Blog"
+        description="Read blog posts by Jack LaFond on cybersecurity, software, and more."
+      />
+      <PageLayout showBackButton>
+        <motion.div variants={group}>
+          <motion.h1
+            variants={group}
+            className="text-2xl font-bold font-serif mb-4"
+          >
+            Blog Posts
+          </motion.h1>
+          <div className="flex flex-col gap-6">
+            {posts.map((post) => (
+              <PostPreview
+                key={post.slug}
+                title={post.title}
+                excerpt={post.excerpt}
+                date={post.date}
+                tags={post.tags}
+                slug={post.slug}
+              />
+            ))}
+          </div>
+        </motion.div>
+      </PageLayout>
+    </>
   );
 }
 

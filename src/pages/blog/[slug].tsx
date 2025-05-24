@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 import PageLayout from "@/components/PageLayout";
 import StyledLink from "@/components/StyledLink";
+import SEO from "@/components/SEO";
 
 interface BlogPageProps {
   source: {
@@ -21,41 +22,49 @@ interface BlogPageProps {
 
 export default function BlogPage({ source }: BlogPageProps) {
   return (
-    <PageLayout showBackButton>
-      <div className="flex flex-col gap-1">
-        <h1 className="text-2xl font-bold font-serif">
-          {source.frontmatter.title}
-        </h1>
-        <h2 className="text-lg font-serif">{source.frontmatter.excerpt}</h2>
-        <p className="text-sm text-zinc-500 dark:text-zinc-600">
-          Written on {source.frontmatter.date}
-          {source.frontmatter.tags && source.frontmatter.tags.length > 0 && (
-            <>
-              {" · "}
-              {source.frontmatter.tags.map((tag: string, index: number) => (
-                <span key={tag}>
-                  <StyledLink href={`/blog/tags/${tag}`}>#{tag}</StyledLink>
-                  {index < source.frontmatter.tags.length - 1 && " "}
-                </span>
-              ))}
-            </>
-          )}
-        </p>
-      </div>
-
-      {source.frontmatter.addendum && (
-        <div className="mt-1">
-          <p className="text-md font-sans rounded-lg bg-[#DBE9FE] border border-[#2463EB] text-[#2463EB] p-3">
-            <span className="font-bold">Editor&apos;s Note:</span>{" "}
-            {source.frontmatter.addendum}
+    <>
+      <SEO
+        title={`${source.frontmatter.title} | Jack's Blog`}
+        description={
+          source.frontmatter.excerpt || "A blog post by Jack LaFond."
+        }
+      />
+      <PageLayout showBackButton>
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-bold font-serif">
+            {source.frontmatter.title}
+          </h1>
+          <h2 className="text-lg font-serif">{source.frontmatter.excerpt}</h2>
+          <p className="text-sm text-zinc-500 dark:text-zinc-600">
+            Written on {source.frontmatter.date}
+            {source.frontmatter.tags && source.frontmatter.tags.length > 0 && (
+              <>
+                {" · "}
+                {source.frontmatter.tags.map((tag: string, index: number) => (
+                  <span key={tag}>
+                    <StyledLink href={`/blog/tags/${tag}`}>#{tag}</StyledLink>
+                    {index < source.frontmatter.tags.length - 1 && " "}
+                  </span>
+                ))}
+              </>
+            )}
           </p>
         </div>
-      )}
 
-      <article className="prose prose-base dark:text-zinc-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200">
-        <MDXRemote compiledSource={""} scope={undefined} {...source} />
-      </article>
-    </PageLayout>
+        {source.frontmatter.addendum && (
+          <div className="mt-1">
+            <p className="text-md font-sans rounded-lg bg-[#DBE9FE] border border-[#2463EB] text-[#2463EB] p-3">
+              <span className="font-bold">Editor&apos;s Note:</span>{" "}
+              {source.frontmatter.addendum}
+            </p>
+          </div>
+        )}
+
+        <article className="prose prose-base dark:text-zinc-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200">
+          <MDXRemote compiledSource={""} scope={undefined} {...source} />
+        </article>
+      </PageLayout>
+    </>
   );
 }
 
