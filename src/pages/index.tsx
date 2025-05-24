@@ -148,7 +148,7 @@ export default function Home(props: Props) {
               variants={item}
             >
               One of my favorite things about the internet is how it connects
-              people from all over the world. Fel free to reach out if
+              people from all over the world. Feel free to reach out if
               you&apos;d like to chat! My Discord is{" "}
               <span className="font-serif italic text-sm">@lafond</span> -
               I&apos;m currently <Status status={status} />.
