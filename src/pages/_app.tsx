@@ -9,6 +9,7 @@ import { useEffect } from "react";
 
 const body = Geist({
   subsets: ["latin"],
+  weight: ["400"],
 });
 
 const serif = Libre_Baskerville({
