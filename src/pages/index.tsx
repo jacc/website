@@ -6,9 +6,7 @@ import { getStatusColor, Status } from "@/components/DiscordStatus";
 import { getSteamRecentGames, SteamRecentGamesResponse } from "@/server/steam";
 import { getMusic } from "@/server/lastfm";
 import { getCurrentlyReading, HardcoverBook } from "@/server/hardcover";
-import SteamGames from "../components/SteamGames";
-import KindleBooks from "../components/KindleBooks";
-import LastFmMusic from "../components/LastFmMusic";
+import PersonalInterests from "../components/PersonalInterests";
 import Footer from "@/components/Footer";
 import PageLayout from "@/components/PageLayout";
 import clsx from "clsx";
@@ -74,62 +72,68 @@ export default function Home(props: Props) {
             className="text-base dark:text-zinc-300 font-sans"
             variants={item}
           >
-            Hi! I&apos;m Jack. I&apos;ve been called many things in my life, but
-            at heart I&apos;ve always enjoyed being called a breaker. I&apos;m a
-            recent cybersecurity graduate from the University of Tampa (and
-            enjoyed it so much, I&apos;m also pursuing an MBA).
+            Hi! I&apos;m Jack. I&apos;ve been called a lot of things over the
+            years, but at my core, I&apos;ve always been a tinkerer. I recently
+            graduated with a degree in Cybersecurity from the University of
+            Tampa (and liked it so much, I decided to stick around for my MBA!)
           </motion.p>
           <motion.p
             className="text-base dark:text-zinc-300 font-sans"
             variants={item}
           >
-            I&apos;ve spent the last decade of my life learning how to build,
-            break and bother digital systems. That&apos;s lead to some pretty
-            cool experiences. Some personal favorites include: reversing Life360
-            and going viral for it, placing first in a global competition for
-            contributing to missing person cases, writing software used by tens
-            of thousands of people monthly, and getting a cease and desist from
-            beloved breakfast restaurant chain, Waffle House.
+            Over the last decade, I&apos;ve been learning how to build, break,
+            and bother digital systems. That&apos;s led to some pretty cool
+            stories:{" "}
+            <StyledLink href="/blog/life360">
+              reversing Life360 and going viral for it
+            </StyledLink>
+            ,{" "}
+            <StyledLink href="/blog/tracelabs">
+              placing first in a global competition for contributing to missing
+              person cases
+            </StyledLink>
+            , writing software used by tens of thousands of people monthly, and
+            getting a cease and desist from beloved breakfast restaurant chain,
+            Waffle House.
           </motion.p>
           <motion.p
             className="text-base dark:text-zinc-300 font-sans"
             variants={item}
           >
             I&apos;m currently working at Security Innovation as a Security
-            Engineer Intern.
+            Engineer Intern, where I get to put all that tinkering to good use.
           </motion.p>
           <motion.p
             className="text-base dark:text-zinc-300 font-sans"
             variants={item}
           >
-            I&apos;m very interested in cybersecurity and computer science
-            (duh). Outside of that, I&apos;ve been enjoying diving deep on
-            OSINT, full stack development using React & Next.js, and always
-            keeping busy with my home lab.
+            My passion for cybersecurity and computer science keeps me busy, but
+            I&apos;ve also been diving deep into OSINT, full stack development
+            with React & Next.js, and constantly tinkering with my home lab.
           </motion.p>
           <motion.p
             className="text-base dark:text-zinc-300 font-sans"
             variants={item}
           >
-            Outside of technology, I&apos;m a huge music fan - recently,{" "}
-            <LastFmMusic music={props.music} />{" "}
-            <KindleBooks books={props.books} />{" "}
-            <SteamGames games={props.steam.games} />
+            <PersonalInterests
+              music={props.music}
+              books={props.books}
+              games={props.steam.games}
+            />
           </motion.p>
           <motion.p
             className="text-base dark:text-zinc-300 font-sans"
             variants={item}
           >
-            One of the best parts of the internet has been connecting with
-            people from all over the world. Please reach out if you&apos;d like
-            to chat! My Discord is{" "}
+            One of my favorite things about the internet is how it connects
+            people from all over the world. Feel free to reach out if you&apos;d
+            like to chat! My Discord is{" "}
             <span className="font-serif italic text-sm">@lafond</span> -
             I&apos;m currently <Status status={status} />.
           </motion.p>
           <motion.div variants={item} className="flex flex-col gap-2">
             <p className="text-base dark:text-zinc-300 font-sans">
-              Other than that, I&apos;m scattered across the internet. Find me
-              here:
+              You can also find me scattered across the internet here:
             </p>
             <div className="flex gap-4">
               <StyledLink
