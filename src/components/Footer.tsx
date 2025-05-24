@@ -4,6 +4,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { motion } from "framer-motion";
 import StyledLink from "./StyledLink";
+import { item } from "@/utilities/constants";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -30,16 +31,7 @@ const Footer: React.FC<FooterProps> = ({ status, weather }) => {
   }, []);
 
   return (
-    <motion.footer
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{
-        delay: 1.2,
-        duration: 0.5,
-        ease: "easeOut",
-      }}
-      className="text-sm"
-    >
+    <motion.footer variants={item} className="text-sm">
       <div className="flex flex-col gap-1">
         <p className="font-bold">
           {weather?.location}

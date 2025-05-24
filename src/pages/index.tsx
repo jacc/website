@@ -148,21 +148,19 @@ export default function Home(props: Props) {
               variants={item}
             >
               One of my favorite things about the internet is how it connects
-              people from all over the world. Feel free to reach out if
+              people from all over the world. Fel free to reach out if
               you&apos;d like to chat! My Discord is{" "}
               <span className="font-serif italic text-sm">@lafond</span> -
               I&apos;m currently <Status status={status} />.
             </motion.p>
             <motion.div variants={item} className="flex flex-col gap-2">
-              <p className="text-base dark:text-zinc-300 font-sans">
+              <motion.p className="text-base dark:text-zinc-300 font-sans">
                 You can also find me scattered across the internet here:
-              </p>
-              <div className="flex gap-4">
+              </motion.p>
+              <motion.div variants={item} className="flex gap-4">
                 <StyledLink
                   href="https://github.com/jacc"
                   intent="social"
-                  isAnimated
-                  animationVariants={item}
                   icon={GithubIcon}
                   ariaLabel="Visit my GitHub profile"
                 >
@@ -172,13 +170,11 @@ export default function Home(props: Props) {
                   href="https://www.linkedin.com/in/jacklafond/"
                   icon={Linkedin}
                   intent="social"
-                  isAnimated
-                  animationVariants={item}
                   ariaLabel="Visit my LinkedIn profile"
                 >
                   LinkedIn
                 </StyledLink>
-              </div>
+              </motion.div>
             </motion.div>
             <Footer status={status} weather={props.weather} />
           </motion.div>
