@@ -50,7 +50,7 @@ const StyledLink = ({
   const defaultRel =
     defaultTarget === "_blank" ? "noopener noreferrer" : undefined;
 
-  const LinkComponent = isAnimated ? motion(Link) : Link;
+  const LinkComponent = isAnimated ? motion.create(Link) : Link;
 
   return (
     <LinkComponent
