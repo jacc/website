@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { ClockIcon } from "lucide-react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -11,19 +10,22 @@ dayjs.extend(timezone);
 
 interface FooterProps {
   status: string;
+  weather?: {
+    location?: string;
+    tempF?: string;
+    desc?: string;
+  } | null;
 }
 
-const Footer: React.FC<FooterProps> = ({ status }) => {
+const Footer: React.FC<FooterProps> = ({ status, weather }) => {
   const [date, setDate] = useState<dayjs.Dayjs | null>(null);
 
   useEffect(() => {
-    setDate(dayjs().tz("America/New_York"));
+    setDate(dayjs());
     const update = () => {
-      setDate(dayjs().tz("America/New_York"));
+      setDate(dayjs());
     };
-
     const id = setInterval(update, 1000);
-
     return () => clearInterval(id);
   }, []);
 
@@ -36,18 +38,29 @@ const Footer: React.FC<FooterProps> = ({ status }) => {
         duration: 0.5,
         ease: "easeOut",
       }}
-      className="mt-8 text-center text-xs text-zinc-500 dark:text-zinc-600"
+      className="text-sm"
     >
-      <div>
-        <div className="flex justify-left items-center gap-1">
-          <ClockIcon className="w-3 h-3" />
-          {date ? date.format("h:mm:ss A") : "--:--:-- --"}{" "}
+      <div className="flex flex-col gap-1">
+        <p className="font-bold">
+          {weather?.location}
+          {weather?.tempF && weather?.desc && (
+            <span className="font-normal">
+              {" "}
+              — {weather.tempF}°F and {weather.desc.toLowerCase()}
+            </span>
+          )}
+        </p>
+
+        <div className="font-sans">
+          {date
+            ? date.format("dddd, MMMM D, YYYY — hh:mm:ss A")
+            : "--, -- ---- ----, --.--.-- -- ---"}
           {date && (date.hour() <= 1 || date.hour() < 6) && status === "offline"
             ? " (I'm probably asleep)"
             : ""}
         </div>
       </div>
-      <div className="flex items-left justify-left gap-1 mt-1">
+      <nav className="flex items-center gap-1 mt-1">
         <StyledLink href="/shelf" intent="navigation">
           Digital Shelf
         </StyledLink>
@@ -59,7 +72,7 @@ const Footer: React.FC<FooterProps> = ({ status }) => {
         <StyledLink href="/blog" intent="navigation">
           Blog
         </StyledLink>
-      </div>
+      </nav>
     </motion.footer>
   );
 };

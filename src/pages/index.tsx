@@ -13,23 +13,31 @@ import clsx from "clsx";
 import { useLanyardWS } from "use-lanyard";
 import { GithubIcon, Linkedin } from "lucide-react";
 import StyledLink from "@/components/StyledLink";
+import { getWeather } from "@/server/weather";
 
 type Props = {
   steam: SteamRecentGamesResponse;
   music: Array<[string, string]>;
   books: HardcoverBook[];
+  weather: {
+    location?: string;
+    tempF?: string;
+    desc?: string;
+  } | null;
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const steam = await getSteamRecentGames();
   const music = await getMusic();
   const books = await getCurrentlyReading();
+  const weather = await getWeather("Tampa");
 
   return {
     props: {
       steam,
       music,
       books,
+      weather,
     },
     revalidate: 3600,
   };
@@ -42,14 +50,15 @@ export default function Home(props: Props) {
 
   return (
     <PageLayout>
-      <motion.div variants={group}>
-        <motion.div variants={item} className="flex flex-col gap-4 mb-4">
+      <motion.div variants={group} className="flex flex-col gap-4">
+        <motion.div variants={item} className="flex flex-col gap-4">
           <div className="sticky shrink-0">
             <Image
               src="https://avatars.githubusercontent.com/u/6956351?v=4"
               alt="logo"
               width={75}
               height={75}
+              priority={true}
               // Thank you Shayan / https://userjot.com
               className="p-0.5 rounded-full border shrink-0 shadow-sm border-gray-200"
             />
@@ -77,25 +86,32 @@ export default function Home(props: Props) {
             graduated with a degree in Cybersecurity from the University of
             Tampa (and liked it so much, I decided to stick around for my MBA!)
           </motion.p>
-          <motion.p
-            className="text-base dark:text-zinc-300 font-sans"
-            variants={item}
-          >
-            Over the last decade, I&apos;ve been learning how to build, break,
-            and bother digital systems. That&apos;s led to some pretty cool
-            stories:{" "}
-            <StyledLink href="/blog/life360">
-              reversing Life360 and going viral for it
-            </StyledLink>
-            ,{" "}
-            <StyledLink href="/blog/tracelabs">
-              placing first in a global competition for contributing to missing
-              person cases
-            </StyledLink>
-            , writing software used by tens of thousands of people monthly, and
-            getting a cease and desist from beloved breakfast restaurant chain,
-            Waffle House.
-          </motion.p>
+          <motion.div variants={item}>
+            <p className="text-base dark:text-zinc-300 font-sans">
+              Over the last decade, I&apos;ve been learning how to build, break,
+              and bother digital systems. That&apos;s led to some pretty cool
+              stories:
+            </p>
+            <ul className="list-disc ml-4 text-base dark:text-zinc-300 font-sans mt-2">
+              <li>
+                <StyledLink href="/blog/life360">
+                  Reversing Life360 and going viral for it
+                </StyledLink>
+              </li>
+              <li>
+                <StyledLink href="/blog/tracelabs">
+                  Winning a global missing persons competition
+                </StyledLink>
+              </li>
+              <li>
+                Writing software used by tens of thousands of people monthly
+              </li>
+              <li>
+                Receiving a cease and desist from beloved breakfast restaurant,
+                Waffle House
+              </li>
+            </ul>
+          </motion.div>
           <motion.p
             className="text-base dark:text-zinc-300 font-sans"
             variants={item}
@@ -158,7 +174,7 @@ export default function Home(props: Props) {
               </StyledLink>
             </div>
           </motion.div>
-          <Footer status={status} />
+          <Footer status={status} weather={props.weather} />
         </motion.div>
       </motion.div>
     </PageLayout>
