@@ -6,6 +6,7 @@ import path from "path";
 import PageLayout from "@/components/PageLayout";
 import StyledLink from "@/components/StyledLink";
 import SEO from "@/components/SEO";
+import { AlertTriangleIcon, HandIcon } from "lucide-react";
 
 interface BlogPageProps {
   source: {
@@ -30,6 +31,14 @@ export default function BlogPage({ source }: BlogPageProps) {
         }
       />
       <PageLayout showBackButton>
+        {source.frontmatter.private && (
+          <div className="p-3 rounded-lg bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-500 text-red-800 dark:text-red-200">
+            <AlertTriangleIcon className="w-5 h-5 inline-block mr-2" />
+            Hey! I&apos;m not sure if you&apos;re reading this, but this post is
+            private and not publicly listed. Please don&apos;t share this
+            around!
+          </div>
+        )}
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold font-serif">
             {source.frontmatter.title}
@@ -53,7 +62,8 @@ export default function BlogPage({ source }: BlogPageProps) {
 
         {source.frontmatter.addendum && (
           <div className="mt-1">
-            <p className="text-md font-sans rounded-lg bg-[#DBE9FE] border border-[#2463EB] text-[#2463EB] p-3">
+            <p className="text-md font-sans rounded-lg bg-[#DBE9FE] dark:bg-[#1E3A8A]/20 border border-[#2463EB] dark:border-[#3B82F6] text-[#2463EB] dark:text-[#60A5FA] p-3">
+              <HandIcon className="w-5 h-5 inline-block mr-2" />
               <span className="font-bold">Editor&apos;s Note:</span>{" "}
               {source.frontmatter.addendum}
             </p>

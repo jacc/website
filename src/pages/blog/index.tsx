@@ -14,6 +14,7 @@ interface BlogPost {
   date: string;
   tags?: string[];
   slug: string;
+  private?: boolean;
 }
 
 interface BlogIndexProps {
@@ -70,16 +71,22 @@ export const getStaticProps: GetStaticProps<BlogIndexProps> = async () => {
         date: mdxSource.frontmatter.date as string,
         tags: (mdxSource.frontmatter.tags as string[]) || null,
         slug: filename.replace(".mdx", ""),
+        private: (mdxSource.frontmatter.private as boolean) || false,
       };
     })
   );
 
+  // Filter out private posts
+  const publicPosts = posts.filter((post) => !post.private);
+
   // Sort posts by date in descending order
-  posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  publicPosts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   return {
     props: {
-      posts,
+      posts: publicPosts,
     },
   };
 };

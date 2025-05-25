@@ -80,9 +80,10 @@ export const getStaticProps: GetStaticProps<TagPageProps> = async ({
 
       const mdxSource = await serialize(source, { parseFrontmatter: true });
       const tags = mdxSource.frontmatter.tags as string[];
+      const isPrivate = (mdxSource.frontmatter.private as boolean) || false;
 
-      // Only include posts that have the specified tag
-      if (!tags?.includes(tag)) {
+      // Only include posts that have the specified tag and are not private
+      if (!tags?.includes(tag) || isPrivate) {
         return null;
       }
 
