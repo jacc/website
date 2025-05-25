@@ -1,5 +1,4 @@
 import "@/styles/globals.css";
-import { Lenis } from "lenis/react";
 import { AnimatePresence } from "motion/react";
 import type { AppProps } from "next/app";
 import { Geist, Libre_Baskerville } from "next/font/google";
@@ -46,11 +45,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Lenis root>
-        <AnimatePresence mode="popLayout">
-          <Component {...pageProps} />;
-        </AnimatePresence>
-      </Lenis>
+      <AnimatePresence mode="popLayout">
+        <Component {...pageProps} />;
+      </AnimatePresence>
     </>
   );
 }
