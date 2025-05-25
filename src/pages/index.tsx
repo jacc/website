@@ -11,7 +11,7 @@ import Footer from "@/components/Footer";
 import PageLayout from "@/components/PageLayout";
 import clsx from "clsx";
 import { useLanyardWS } from "use-lanyard";
-import { GithubIcon, Linkedin } from "lucide-react";
+import { GithubIcon, Linkedin, Twitter } from "lucide-react";
 import StyledLink from "@/components/StyledLink";
 import { getWeather } from "@/server/weather";
 import SEO from "@/components/SEO";
@@ -165,6 +165,14 @@ export default function Home(props: Props) {
                   ariaLabel="Visit my GitHub profile"
                 >
                   GitHub
+                </StyledLink>
+                <StyledLink
+                  href="https://www.x.com/1afond"
+                  icon={Twitter}
+                  intent="social"
+                  ariaLabel="Visit my Twitter profile"
+                >
+                  Twitter
                 </StyledLink>
                 <StyledLink
                   href="https://www.linkedin.com/in/jacklafond/"
