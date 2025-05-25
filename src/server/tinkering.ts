@@ -15,18 +15,18 @@ export const tinkeringProjects: TinkeringProject[] = [
     id: "1",
     title: "Digital Shelf",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
-    date: "2025-03-20",
-    tags: ["Next.js", "TypeScript", "Letterboxd API"],
+      "This website. Built with Next.js, Tailwind CSS, and TypeScript. Uses integrations for Last.fm, Letterboxd, and more.",
+    date: "2025-05",
+    tags: ["Next.js", "TypeScript", "API Reversing"],
     isActive: true,
   },
   {
     id: "2",
     title: "stardew.app",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+      "Stardew Valley companion app, built with Next.js, TypeScript, and Tailwind CSS. Used by 30,000+ users a month",
     date: "2022-07",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["Next.js", "TypeScript", "PostgreSQL", "Tailwind CSS"],
     isActive: true,
     link: "https://stardew.app",
     links: [
@@ -38,10 +38,9 @@ export const tinkeringProjects: TinkeringProject[] = [
   {
     id: "3",
     title: "stardew.me",
-    description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+    description: "Stardew Valley avatar generator. ",
     date: "2022-07",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["Next.js", "TypeScript", "Python", "XML"],
     isActive: true,
     link: "https://stardew.me",
     links: [
@@ -54,58 +53,75 @@ export const tinkeringProjects: TinkeringProject[] = [
     id: "4",
     title: "Stats360",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+      "Web dashboard for Life360, a GPS tracking app. Went viral on TikTok with over 100,000 users.",
     date: "2022-03",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["Next.js", "TypeScript", "API Reversing"],
+    links: [
+      {
+        "Blog Post": "/blog/life360",
+      },
+    ],
   },
   {
     id: "5",
     title: "RecipeBot",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+      "AI-powered recipe generator powered by Instagram and TikTok captions, utilizing a custom implemented scraper for social media platforms.",
     date: "2024-08",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["Next.js", "TypeScript", "AI", "Web Scraping", "Redis"],
   },
   {
     id: "6",
     title: "CertCertCert (cert3)",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+      "Cybersecurity certificate studying platform, integrating AI-powered flashcards and quizzes.",
     date: "2024-05",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["Next.js", "TypeScript", "AI"],
   },
   {
     id: "7",
     title: "tunes.ninja",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+      "Discord bot bridging the gap between music streaming services. Created synced playlists through Discord, get links to all platforms a song is on, and more.",
     date: "2021-10",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["TypeScript", "Discord.js"],
+    links: [
+      {
+        GitHub: "https://github.com/jacc/tunes.ninja",
+      },
+    ],
+    isAbandoned: true,
   },
   {
     id: "8",
     title: "Librarian (WIP)",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+      "Scraper for popular ePub files, allowing you to download and send them to your Kindle.",
     date: "2025-05",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["Next.js", "TypeScript", "SMTP", "Web Scraping"],
   },
   {
     id: "9",
     title: "Magic Terms for Obsidian",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+      "Plugin for Obsidian, a note-taking app. Adds functionality via plugin that allows you to create flashcards from your notes using AI.",
     date: "2025-02",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["TypeScript", "AI"],
   },
   {
     id: "10",
     title: "music-box",
     description:
-      "Created a digital shelf to track books and movies I've consumed, with Letterboxd integration.",
+      "Last.fm integration for GitHub profiles. Winner of the 2019 GitHub #PinsToWin contest.",
     date: "2019-08",
-    tags: ["Next.js", "TypeScript"],
+    tags: ["TypeScript"],
     link: "https://github.com/jacc/music-box",
+    links: [
+      {
+        "GitHub blog post":
+          "https://github.blog/developer-skills/career-growth/pins-to-win-stunning-student-profiles/#:~:text=Jack%20wrote%20music%2Dbox%2C%20combining%20the%20Last.fm%20API%20with%20a%20gist%20updater%2C%20to%20show%20off%20his%20music%20listening%20habits%20on%20his%20profile.%20As%20Jack%20put%20it%2C%20%E2%80%9CWhat%20better%20way%20to%20get%20to%20know%20someone%20than%20to%20express%20your%20interest%20in%20music?%E2%80%9D",
+      },
+    ],
   },
   {
     id: "11",
@@ -144,7 +160,7 @@ export const tinkeringProjects: TinkeringProject[] = [
     description:
       "iOS jailbreaking tweak used to play Wii channel music while using the device.",
     date: "2020-02",
-    tags: ["iOS", "jailbreak"],
+    tags: ["iOS"],
     isAbandoned: true,
   },
   {
