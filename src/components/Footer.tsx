@@ -64,6 +64,10 @@ const Footer: React.FC<FooterProps> = ({ status, weather }) => {
         <StyledLink href="/blog" intent="navigation">
           Blog
         </StyledLink>
+        <span>⊹</span>
+        <StyledLink href="/labs" intent="navigation">
+          LaFond Labs™
+        </StyledLink>
       </nav>
     </motion.footer>
   );
