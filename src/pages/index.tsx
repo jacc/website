@@ -66,7 +66,7 @@ export default function Home(props: Props) {
 
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [hasAchievement]);
 
   return (
     <>
