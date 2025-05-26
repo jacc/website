@@ -1,5 +1,5 @@
 import { ArrowLeft } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 interface BackButtonProps {
@@ -9,12 +9,28 @@ interface BackButtonProps {
 
 const BackButton: React.FC<BackButtonProps> = ({ href, className }) => {
   const router = useRouter();
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setCanGoBack(window.history.state?.idx > 0);
+    };
+
+    handleRouteChange(); // Check initial state
+    router.events.on("routeChangeComplete", handleRouteChange);
+
+    return () => {
+      router.events.off("routeChangeComplete", handleRouteChange);
+    };
+  }, [router]);
 
   const handleBack = () => {
     if (href) {
       router.push(href);
-    } else {
+    } else if (canGoBack) {
       router.back();
+    } else {
+      router.push("/");
     }
   };
 
