@@ -27,7 +27,7 @@ const BackButton: React.FC<BackButtonProps> = ({ href, className }) => {
         z-50
         mb-4
         text-sm
-        md:absolute md:top-[79px] md:left-[-100px] md:mb-0
+        md:absolute md:top-[63px] md:left-[-100px] md:mb-0
         transition-all duration-150 ease-in-out flex items-center gap-2 hover:cursor-pointer
         ${className}
       `}
