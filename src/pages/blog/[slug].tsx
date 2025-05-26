@@ -14,7 +14,7 @@ import {
   LinkIcon,
   Twitter,
 } from "lucide-react";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect } from "react";
 import { useAchievements } from "@/hooks/useAchievements";
 
 interface BlogPageProps {

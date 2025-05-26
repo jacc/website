@@ -1,5 +1,5 @@
 import PageLayout from "@/components/PageLayout";
-import { getTinkeringProjects } from "@/server/tinkering";
+import { getTinkeringProjects } from "@/lib/tinkering";
 import { GetStaticProps } from "next";
 import { format, parseISO } from "date-fns";
 import { motion } from "framer-motion";
