@@ -7,25 +7,25 @@ addendum: "This post is written in good faith and with a spirit of humor and adm
 private: true
 ---
 
-In late September of 2024, Hurricane Helene was spiraling towards Florida, my home state. My university had cancelled classes for the week, and while people were barricading their homes, I was spending time reverse engineering Waffle House’s website.
+In late September of 2024, Hurricane Helene was spiraling towards Florida, my home state. My university had cancelled classes for the week, and while people were barricading their homes, I was spending time reverse-engineering Waffle House’s website.
 
-Why you may ask?
+Why, you may ask? If you’ve never heard of the Waffle House Index, you’re in for a bit of weirdly fascinating disaster response lore. The Waffle House Index is an (incredibly) unofficial tool used by FEMA to gauge the severity of natural disasters. Why Waffle House? Because they’re infamous for not closing even during the worst of storms. If the House is closed, that means things are getting real.
 
-If you’ve never heard of the Waffle House Index, you’re in for a bit of weirdly fascinating disaster response lore. The Waffle House Index is an (incredibly) unofficial index used by the Federal Emergency Management Agency to gauge the severity of natural disasters. Why Waffle House? Because Waffle House is infamous for not closing during the worst of storms. If the House is down, that means things are getting real.
+The problem with the Waffle House Index is that there’s not really an actual “index” you can check. No live feed, no map, and certainly no counter of closed restaurants — just a few wisps of a mention on Wikipedia pages and articles throughout the web ([including one blog post on their actual website!](https://www.wafflehouse.com/how-to-measure-a-storms-fury-one-breakfast-at-a-time/)).
 
-The problem with the Waffle House Index is that there’s really not an actual “index” you can check. No live feed, no map, just a few wisps of a mention on Wikipedia pages and articles throughout the web (including one blog post on their actual website!)
+...so, naturally, I built one.
 
-..so naturally, I built one.
-
-I already dove into the technical side of things in a YouTube video I published, which I’ll link below; but here’s the technical gist of how the site worked.
+I already dove into the technical side of things in a YouTube video I published, which I’ll link below, but here’s the technical gist of how the site worked.
 
 ## The Technicals
 
-Waffle House uses Next.js for their site (or at least, their location information site). Incredibly based choice, by the way - but this meant that they also utilized React Server Components, which made it incredibly hard to scrape or find any single source of truth for data about the websites.
+Waffle House uses Next.js for their site (or at least, their location information site). Incredibly based choice, by the way. This meant that they also utilized React Server Components, which made it hard to scrape or find any single source of truth for data about the websites.
 
-After spending more time than I’d like to admit digging through their source code, I ended up finding a Next.js build file, in JSON, that had information about every single open location, their status, and more importantly, **if they were closed**.
+React Server Components run on the server, and unlike client-side components, they don’t return raw HTML you can easily inspect in Dev Tools. That means you’ll need to get a bit creative to see how data is being fetched.
 
-Using some light data scraping and processing with Python, along with a Next.js frontend & Redis implementation for caching, I was able to make a live map that tracked which Waffle Houses were closed, and by extension, which parts of the country might be going south.
+After spending more time than I’d like to admit digging through their source code, I ended up finding a Next.js file that had a JSON body of the data injected into the client after being executed on the server. This file had information about every single open location, their status (if they were busy or not), and more importantly, **if they were closed**.
+
+Using some light data scraping and processing with Python, along with a Next.js frontend and Redis implementation for caching, I was able to make a live map that tracked which Waffle Houses were closed, and by extension, which parts of the country might be going south.
 
 If you're curious about how I ended up finding the file and the technical implications of the site, watch the YouTube video below:
 
@@ -43,35 +43,35 @@ If you're curious about how I ended up finding the file and the technical implic
 
 ## The Beginning of the End
 
-After I created the site, I snapped up wafflehouseindex[.]org and threw it up on Vercel, then sent a (now deleted) tweet out about it.
+After I created the site, I snapped up wafflehouseindex[.]org, threw it up on Vercel, and sent out a tweet about it.
 
-My account when I tweeted it out had less than 200 followers. I wasn’t truly expecting them to see it, nor for it to go absolutely viral.
+At the time, my account had fewer than 200 followers. I genuinely didn’t expect anyone at the company to see the tweet, let alone for it to blow up.
 
-Until they did see it. And then the corporate account was suddenly replying to my tweet, saying that the information was incorrect and any information about closures would come from their official communication channels.
+But then they _did_ see it. And suddenly, the corporate account was replying, saying that the information was incorrect and reminding everyone that information about closures would come from their official communication channels.
 
 ![F](https://media.discordapp.net/attachments/1019633433800101940/1293284609051721781/Orion_10-08-2024__02.51PM2x.png?ex=683366a6&is=68321526&hm=a8c004af1f91fa5dc10ece220957bd5a592218a9617071fbf3822520e06e4aaa&=&format=webp&quality=lossless&width=1896&height=2170)
 
-Which, first of all, I can understand - but I was quite literally USING their data for this, so it’s not that it really was incorrect at all. But either way, seeing as the entire situation was making me laugh, I re-tweeted their response to me in jest saying “haha, now you do!”, not really thinking much of it. Who would think that the mega-chain breakfast place would be spending their time replying to a teenager online talking about if their stores were closed?
+Which — first of all — I can understand. But I was quite literally USING their data for this, so it wasn’t really incorrect at all. Either way, seeing as the entire situation was making me laugh, I quote-tweeted their response and jokingly said, “haha, now you do!”, not really thinking much of it. Who would think the mega-chain breakfast place would be spending time replying to a teenager online talking about if their stores were closed?
 
-That was the case, until Frank Luntz (American political commentator commonly seen on CNBC, Bloomberg, among others. But also someone with a 400,000+ follower count on Twitter) somehow saw my tweet and took interest in the site.
+That was the case, until Frank Luntz (American political commentator commonly seen on CNBC, Bloomberg, who also has a 400,000+ follower count on Twitter) somehow saw my tweet and took interest in the site.
 
 ### Mom, get the cameras!
 
-At that point, I started sweating a little bit. Obviously being recognized for your work online is very cool, but it’s another to be casually chatting with a massive news influencer about a random half-joke half-engineering marvel that I made.
+At that point, I started sweating a little. Obviously being recognized for your work online is very cool, but it’s another thing entirely to be casually chatting with a major media figure about a random half-joke, half-engineering marvel I’d made.
 
-Frank decided to share the site with a Tweet directly linking to my site. Within minutes, I had a few hundred people on my site, poking and prodding at the index and taking a look at the map.
+Frank decided to share the site with a tweet directly linking to it. Within minutes, I had a few hundred people browsing the site, poking and prodding at the index and checking out the map.
 
-Unfortunately, the devil works hard, but Waffle House’s marketing (and at this point, probably legal) team works harder. They swiftly replied to Frank’s tweet echoing what they had replied to me - that the site was unofficial and incorrect, and any information they’d have would come from an official Waffle House account. Frank, wanting to maintain his credibility, very quickly apologized and deleted the site.
+Unfortunately, the devil works hard, but Waffle House’s marketing (and at this point, probably legal) team works harder. They swiftly replied to Frank’s tweet, echoing what they’d said to me: - the site was unofficial and incorrect, and that any closure info would come from an official Waffle House account. Frank, wanting to maintain credibility, quickly apologized and deleted the tweet.
 
-I figured that would be the end of it until, I went to go look back at what they said.
+I figured that would be the end of it until I went to look back at what they said.
 
 Their tweet was gone.
 
 What?
 
-![Waffle House emailing me](/images/waffleblocked.png)
+And then I clicked their profile.
 
-... oh!
+![Waffle House emailing me](/images/waffleblocked.png)
 
 ### Kicked (and scolded) out the House
 
@@ -79,13 +79,13 @@ In a million years did I not expect that one coming. Two responses to their twee
 
 In hindsight, I can imagine that my actions probably stressed some poor marketing person out and they needed to do damage control somehow. Regardless, it’s incredibly funny that I got _blocked_ by the breakfast chain.
 
-Shortly after getting blocked (and after the hurricane had passed), I woke up to an email from someone with a Very High Up Position at Waffle House informing me that I need to immediately “cease and desist all unauthorized use of Trademarks owned by WH Intellectual, LLC and any confusingly similar marks in connection with your website”.
+Shortly after getting blocked (and after the hurricane had passed), I woke up to an email from someone with a Very High Up Position at Waffle House informing me that I needed to immediately “cease and desist all unauthorized use of Trademarks owned by WH Intellectual, LLC and any confusingly similar marks in connection with your website.”
 
 ![Waffle House emailing me](/images/whemail.png)
 
-I was honestly more surprised at the fact that the silly logo that I made (a very great representation, if I do say so myself) was what got me yelled at by them, and not anything to do with scraping or reverse engineering their site.
+Honestly, I was more surprised that the silly logo I made (a very great representation, if I do say so myself) was what got me in trouble, and less so the scraping or reverse-engineering part.
 
-You may be asking yourself, how did I reply?
+You may be asking yourself: _How did I reply?_
 
 Great question.
 
@@ -102,8 +102,16 @@ I gave my response the same treatment as I did the rest of this entire process: 
 
 The Very High Up Person actually did reply to this with much less legal jargon than the first email and was very down to earth with me, even thanking me for wanting to help out with the recovery efforts. But at the end of the day, I was still violating their trademarks and needed to take it down.
 
-I did take it down and even emailed back asking if there was anything I could do, but unfortunately got ghosted after that.
+I did take it down and even emailed back asking if there was anything I could do to keep the site running officially under the same branding I had created, but unfortunately got ghosted after that.
 
 # The End of the End
 
-In conclusion.. yeah finish this eventually!
+One of my favorite parts of programming is the ability to simply build things just for the fun of it, and this project was nothing short of exactly that. While I do wish I could have kept it up for longer than a few weeks, being able to use data that seems meaningless on the surface to build something bigger is always such an adventure.
+
+Thanks again to Waffle House for being good sports in the end, even after I may have violated their trademarks…and stole their data along the way :)
+
+<i>
+  <small>
+    Thanks to Moo, Kai, and the Babgel GC for proofreading & editing. \<3
+  </small>
+</i>

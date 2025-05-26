@@ -6,7 +6,14 @@ import path from "path";
 import PageLayout from "@/components/PageLayout";
 import StyledLink from "@/components/StyledLink";
 import SEO from "@/components/SEO";
-import { AlertTriangleIcon, HandIcon } from "lucide-react";
+import {
+  AlertTriangleIcon,
+  GithubIcon,
+  HandIcon,
+  Linkedin,
+  LinkIcon,
+  Twitter,
+} from "lucide-react";
 
 interface BlogPageProps {
   source: {
@@ -70,9 +77,49 @@ export default function BlogPage({ source }: BlogPageProps) {
           </div>
         )}
 
-        <article className="prose prose-base dark:text-zinc-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200">
+        <article className="prose prose-base dark:text-zinc-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200 prose-li:my-0">
           <MDXRemote compiledSource={""} scope={undefined} {...source} />
         </article>
+        <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800 pt-8">
+          <div className="flex gap-4">
+            <StyledLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                navigator.clipboard.writeText(window.location.href);
+              }}
+              intent="social"
+              icon={LinkIcon}
+              ariaLabel="Copy link to this post"
+            >
+              Copy Link
+            </StyledLink>
+            <StyledLink
+              href="https://github.com/jacc"
+              intent="social"
+              icon={GithubIcon}
+              ariaLabel="Visit my GitHub profile"
+            >
+              GitHub
+            </StyledLink>
+            <StyledLink
+              href="https://www.x.com/1afond"
+              icon={Twitter}
+              intent="social"
+              ariaLabel="Visit my Twitter profile"
+            >
+              Twitter
+            </StyledLink>
+            <StyledLink
+              href="https://www.linkedin.com/in/jacklafond/"
+              icon={Linkedin}
+              intent="social"
+              ariaLabel="Visit my LinkedIn profile"
+            >
+              LinkedIn
+            </StyledLink>
+          </div>
+        </div>
       </PageLayout>
     </>
   );
