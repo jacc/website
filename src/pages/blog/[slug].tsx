@@ -90,7 +90,7 @@ export default function BlogPage({ source }: BlogPageProps) {
         <article className="prose prose-base dark:text-zinc-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200 prose-li:my-0">
           <MDXRemote compiledSource={""} scope={undefined} {...source} />
         </article>
-        <div className="mt-8 border-t border-zinc-200 dark:border-zinc-800 pt-8">
+        <div className="border-t border-zinc-200 dark:border-zinc-800 pt-8">
           <div className="flex gap-4">
             <StyledLink
               href="#"
