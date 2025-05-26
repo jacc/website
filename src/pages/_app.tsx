@@ -1,3 +1,5 @@
+import Toaster from "@/components/toast";
+import { useAchievements } from "@/hooks/useAchievements";
 import "@/styles/globals.css";
 import { AnimatePresence } from "motion/react";
 import type { AppProps } from "next/app";
@@ -18,6 +20,13 @@ const serif = Libre_Baskerville({
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const { unlock, hasAchievement } = useAchievements();
+
+  useEffect(() => {
+    if (!hasAchievement("first_visit")) {
+      unlock("first_visit");
+    }
+  }, [unlock, hasAchievement]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -46,6 +55,7 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <AnimatePresence mode="popLayout">
+        <Toaster />
         <Component {...pageProps} />;
       </AnimatePresence>
     </>

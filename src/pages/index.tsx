@@ -15,6 +15,8 @@ import { GithubIcon, Linkedin, Twitter } from "lucide-react";
 import StyledLink from "@/components/StyledLink";
 import { getWeather } from "@/server/weather";
 import SEO from "@/components/SEO";
+import { useEffect } from "react";
+import { toast } from "@/components/toast";
 
 type Props = {
   steam: SteamRecentGamesResponse;
@@ -48,6 +50,19 @@ export default function Home(props: Props) {
   // The variable is hardcoded due to a server validated env variable not being available on the client.
   const lanyard = useLanyardWS("657057112593268756");
   const status = lanyard?.discord_status || "offline";
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      toast({
+        title: "Excuse the mess!",
+        description: "The site is still under construction :)",
+        intent: "success",
+        duration: 7500,
+      });
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
@@ -111,8 +126,10 @@ export default function Home(props: Props) {
                   Writing software used by tens of thousands of people monthly
                 </li>
                 <li>
-                  Receiving a cease and desist from beloved breakfast
-                  restaurant, Waffle House
+                  <StyledLink href="/blog/wafflehouse">
+                    Receiving a cease and desist from beloved breakfast
+                    restaurant, Waffle House
+                  </StyledLink>
                 </li>
               </ul>
             </motion.div>

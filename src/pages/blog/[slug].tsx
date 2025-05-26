@@ -14,6 +14,8 @@ import {
   LinkIcon,
   Twitter,
 } from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
+import { useAchievements } from "@/hooks/useAchievements";
 
 interface BlogPageProps {
   source: {
@@ -29,6 +31,14 @@ interface BlogPageProps {
 }
 
 export default function BlogPage({ source }: BlogPageProps) {
+  const { unlock, hasAchievement } = useAchievements();
+
+  useEffect(() => {
+    if (!hasAchievement("first_blog_read")) {
+      unlock("first_blog_read");
+    }
+  }, [unlock, hasAchievement]);
+
   return (
     <>
       <SEO
