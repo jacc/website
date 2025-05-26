@@ -26,7 +26,7 @@ export default function App({ Component, pageProps }: AppProps) {
     if (!hasAchievement("first_visit")) {
       unlock("first_visit");
     }
-  }, []);
+  }, [hasAchievement, unlock]);
 
   useEffect(() => {
     if (typeof window === "undefined") {

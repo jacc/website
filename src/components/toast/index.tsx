@@ -55,7 +55,7 @@ const ToastCloseButton = ({ id, intent }: { id: string; intent: string }) => {
           | "orange",
         isTouchScreen,
       })}
-      onClick={() => toast.dismiss(id)}
+      onClick={() => toastSonner.dismiss(id)}
       aria-label="Close toast"
     >
       <X className="size-2.5" />
@@ -134,7 +134,7 @@ const toast: ToastFactoryProps & ToastFactoryComposition = ({
               | "warning"
               | "orange"
           }
-          id={String(t ?? "")}
+          id={t as string}
         />
       </div>
     ),
