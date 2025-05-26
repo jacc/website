@@ -132,3 +132,4 @@ dist
 # Next.js
 .next
 .DS_Store
+.vercel

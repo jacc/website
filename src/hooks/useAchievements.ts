@@ -26,10 +26,12 @@ export function useAchievements() {
 
   const unlock = useCallback(
     (id: AchievementId) => {
-      if (!unlocked[id]) {
+      setUnlocked((prevUnlocked) => {
+        if (prevUnlocked[id]) {
+          return prevUnlocked;
+        }
         const now = new Date().toISOString();
-        const updated = { ...unlocked, [id]: now };
-        setUnlocked(updated);
+        const updated = { ...prevUnlocked, [id]: now };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
         const achievement = ALL_ACHIEVEMENTS.find((a) => a.id === id);
         if (achievement) {
@@ -39,9 +41,10 @@ export function useAchievements() {
             intent: "success",
           });
         }
-      }
+        return updated;
+      });
     },
-    [unlocked]
+    [] // No dependencies needed since we use functional update
   );
 
   const unlockedAchievements = ALL_ACHIEVEMENTS.filter(
