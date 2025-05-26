@@ -17,6 +17,7 @@ import { getWeather } from "@/server/weather";
 import SEO from "@/components/SEO";
 import { useEffect } from "react";
 import { toast } from "@/components/toast";
+import { useAchievements } from "@/hooks/useAchievements";
 
 type Props = {
   steam: SteamRecentGamesResponse;
@@ -50,18 +51,21 @@ export default function Home(props: Props) {
   // The variable is hardcoded due to a server validated env variable not being available on the client.
   const lanyard = useLanyardWS("657057112593268756");
   const status = lanyard?.discord_status || "offline";
+  const { hasAchievement } = useAchievements();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      toast({
-        title: "Excuse the mess!",
-        description: "The site is still under construction :)",
-        intent: "success",
-        duration: 7500,
-      });
-    }, 3000);
+    if (!hasAchievement("first_visit")) {
+      const timer = setTimeout(() => {
+        toast({
+          title: "Excuse the mess!",
+          description: "The site is still under construction :)",
+          intent: "success",
+          duration: 7500,
+        });
+      }, 3000);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   return (
