@@ -13,35 +13,28 @@ import clsx from "clsx";
 import { useLanyardWS } from "use-lanyard";
 import { GithubIcon, Linkedin, Twitter } from "lucide-react";
 import StyledLink from "@/components/StyledLink";
-import { getWeather } from "@/server/weather";
 import SEO from "@/components/SEO";
 import { useEffect } from "react";
 import { toast } from "@/components/toast";
 import { useAchievements } from "@/hooks/useAchievements";
+import { useWeather } from "@/hooks/useWeather";
 
 type Props = {
   steam: SteamRecentGamesResponse;
   music: Array<[string, string]>;
   books: HardcoverBook[];
-  weather: {
-    location?: string;
-    tempF?: string;
-    desc?: string;
-  } | null;
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const steam = await getSteamRecentGames();
   const music = await getMusic();
   const books = await getCurrentlyReading();
-  const weather = await getWeather("Tampa");
 
   return {
     props: {
       steam,
       music,
       books,
-      weather,
     },
     revalidate: 3600,
   };
@@ -52,6 +45,8 @@ export default function Home(props: Props) {
   const lanyard = useLanyardWS("657057112593268756");
   const status = lanyard?.discord_status || "offline";
   const { hasAchievement } = useAchievements();
+  console.log(lanyard);
+  const { weather } = useWeather(lanyard?.kv.city || "Tampa");
 
   useEffect(() => {
     if (!hasAchievement("first_visit")) {
@@ -207,7 +202,7 @@ export default function Home(props: Props) {
                 </StyledLink>
               </motion.div>
             </motion.div>
-            <Footer status={status} weather={props.weather} />
+            <Footer status={status} weather={weather} />
           </motion.div>
         </motion.div>
       </PageLayout>
