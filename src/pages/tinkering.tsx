@@ -81,10 +81,19 @@ export default function Tinkering({ projects }: Props) {
         <motion.div variants={group}>
           <motion.h1
             variants={item}
-            className="text-2xl font-serif font-bold mb-12"
+            className="text-2xl font-serif font-bold mb-4"
           >
             Tinkering
           </motion.h1>
+          <motion.p
+            className="text-base dark:text-zinc-300 font-sans mb-4"
+            variants={item}
+          >
+            Here’s a (semi-complete) collection of my projects, experiments, and
+            digital rabbit holes from the past few years. I’ve been tinkering
+            with computers since I was a kid — always more interested in how
+            things work than just that they do.
+          </motion.p>
           <motion.div variants={item} className="mb-8">
             <button
               onClick={() => setShowOnlyActive(!showOnlyActive)}
