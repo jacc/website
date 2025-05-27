@@ -66,6 +66,11 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
+        <script
+          defer
+          data-domain="jack.bio"
+          src="https://plausible.verbose.faith/js/script.js"
+        ></script>
       </Head>
 
       <AnimatePresence mode="popLayout">
