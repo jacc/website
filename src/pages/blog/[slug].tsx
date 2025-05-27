@@ -26,11 +26,17 @@ interface BlogPageProps {
       tags: string[];
       addendum?: string;
       private: boolean;
+      banner?: string;
+      header?: string;
+      modifiedDate?: string;
     };
+  };
+  params: {
+    slug: string;
   };
 }
 
-export default function BlogPage({ source }: BlogPageProps) {
+export default function BlogPage({ source, params }: BlogPageProps) {
   const { unlock, hasAchievement } = useAchievements();
 
   useEffect(() => {
@@ -46,6 +52,14 @@ export default function BlogPage({ source }: BlogPageProps) {
         description={
           source.frontmatter.excerpt || "A blog post by Jack LaFond."
         }
+        ogImage={source.frontmatter.banner || source.frontmatter.header}
+        canonicalUrl={`/blog/${params.slug}`}
+        type="article"
+        publishedTime={source.frontmatter.date}
+        modifiedTime={
+          source.frontmatter.modifiedDate || source.frontmatter.date
+        }
+        tags={source.frontmatter.tags}
       />
       <PageLayout showBackButton>
         {source.frontmatter.private && (
@@ -159,6 +173,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   return {
     props: {
       source: mdxSource,
+      params,
     },
   };
 };
