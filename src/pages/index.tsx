@@ -127,7 +127,9 @@ export default function Home(props: Props) {
                   </StyledLink>
                 </li>
                 <li>
-                  Writing software used by tens of thousands of people monthly
+                  <StyledLink href="/tinkering#2">
+                    Writing software used by tens of thousands of people monthly
+                  </StyledLink>
                 </li>
                 <li>
                   <StyledLink href="/blog/wafflehouse">
