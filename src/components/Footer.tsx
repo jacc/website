@@ -5,30 +5,43 @@ import timezone from "dayjs/plugin/timezone";
 import { motion } from "framer-motion";
 import StyledLink from "./StyledLink";
 import { item } from "@/utilities/constants";
+import tzlookup from "@photostructure/tz-lookup";
+import { WeatherData } from "@/hooks/useWeather";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
 interface FooterProps {
   status: string;
-  weather?: {
-    location?: string;
-    tempF?: string;
-    desc?: string;
-  } | null;
+  weather?: WeatherData;
 }
 
 const Footer: React.FC<FooterProps> = ({ status, weather }) => {
   const [date, setDate] = useState<dayjs.Dayjs | null>(null);
+  const [hasWeatherData, setHasWeatherData] = useState(false);
 
   useEffect(() => {
-    setDate(dayjs());
+    if (weather?.lat && weather?.long) {
+      setHasWeatherData(true);
+    }
+  }, [weather?.lat, weather?.long]);
+
+  useEffect(() => {
     const update = () => {
-      setDate(dayjs());
+      if (weather?.lat && weather?.long) {
+        // Get timezone from coordinates
+        const timezone = tzlookup(Number(weather.lat), Number(weather.long));
+        // Create date in the correct timezone
+        setDate(dayjs().tz(timezone));
+      }
     };
-    const id = setInterval(update, 1000);
-    return () => clearInterval(id);
-  }, []);
+
+    if (hasWeatherData) {
+      update();
+      const id = setInterval(update, 1000);
+      return () => clearInterval(id);
+    }
+  }, [weather?.lat, weather?.long, hasWeatherData]);
 
   return (
     <motion.footer variants={item} className="text-sm">
@@ -44,9 +57,9 @@ const Footer: React.FC<FooterProps> = ({ status, weather }) => {
         </p>
 
         <div className="font-sans">
-          {date
+          {hasWeatherData && date
             ? date.format("dddd, MMMM D, YYYY — hh:mm:ss A")
-            : "--, -- ---- ----, --.--.-- -- ---"}
+            : ""}
           {date && (date.hour() <= 1 || date.hour() < 6) && status === "offline"
             ? " (I'm probably asleep)"
             : ""}

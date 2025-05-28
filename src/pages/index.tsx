@@ -45,8 +45,7 @@ export default function Home(props: Props) {
   const lanyard = useLanyardWS("657057112593268756");
   const status = lanyard?.discord_status || "offline";
   const { hasAchievement } = useAchievements();
-  console.log(lanyard);
-  const { weather } = useWeather(lanyard?.kv.city || "Tampa");
+  const { weather } = useWeather(lanyard?.kv.city || "Seattle");
 
   useEffect(() => {
     if (!hasAchievement("first_visit")) {
@@ -202,7 +201,7 @@ export default function Home(props: Props) {
                 </StyledLink>
               </motion.div>
             </motion.div>
-            <Footer status={status} weather={weather} />
+            <Footer status={status} weather={weather || undefined} />
           </motion.div>
         </motion.div>
       </PageLayout>

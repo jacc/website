@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 
-interface WeatherData {
+export interface WeatherData {
   location?: string;
   tempF?: string;
   desc?: string;
+  lat?: string;
+  long?: string;
 }
 
 export function useWeather(city: string) {
@@ -21,6 +23,8 @@ export function useWeather(city: string) {
           location: `${data.nearest_area?.[0]?.areaName?.[0]?.value}, ${data.nearest_area?.[0]?.region?.[0]?.value}`,
           tempF: data.current_condition?.[0]?.temp_F,
           desc: data.current_condition?.[0]?.weatherDesc?.[0]?.value,
+          lat: data.nearest_area?.[0]?.latitude,
+          long: data.nearest_area?.[0]?.longitude,
         });
       } catch {
         setWeather(null);
