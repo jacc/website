@@ -97,7 +97,7 @@ export default function Home(props: Props) {
               className="text-base dark:text-zinc-300 font-sans"
               variants={item}
             >
-              Hi! I&apos;m Jack. I&apos;ve been called a lot of things over the
+              Hi! I&apos;m Jack. I&apos;ve been called many things over the
               years, but at my core, I&apos;ve always been a tinkerer. I
               recently graduated with a degree in Cybersecurity from the
               University of Tampa (and liked it so much, I decided to stick
@@ -158,6 +158,7 @@ export default function Home(props: Props) {
                 music={props.music}
                 books={props.books}
                 games={props.steam.games}
+                spotify={lanyard?.spotify || null}
               />
             </motion.p>
             <motion.p

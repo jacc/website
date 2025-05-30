@@ -7,6 +7,12 @@ type PersonalInterestsProps = {
   music: Array<[string, string]>;
   books: HardcoverBook[];
   games: SteamGame[];
+  spotify?: {
+    song: string;
+    artist: string;
+    album: string;
+    album_art_url: string | null;
+  } | null;
 };
 
 const getProgressDescription = (progress: number): string => {
@@ -21,6 +27,7 @@ const PersonalInterests: React.FC<PersonalInterestsProps> = ({
   music,
   books,
   games,
+  spotify,
 }) => {
   const formatList = (elements: React.ReactNode[]): React.ReactNode => {
     return elements.map((element, index) => (
@@ -34,17 +41,48 @@ const PersonalInterests: React.FC<PersonalInterestsProps> = ({
   const hasMusicContent = music && music.length > 0;
   const hasBookContent = books && books.length > 0;
   const hasGameContent = games && games.length > 0;
+  const isListeningToSpotify = spotify !== null && spotify !== undefined;
 
   // Music section
-  const musicElements = hasMusicContent
-    ? formatList(
+  const musicElements = isListeningToSpotify ? (
+    <React.Fragment>
+      I love music a lot, and I&apos;m actually listening to{" "}
+      <StyledLink
+        href={`https://open.spotify.com/search/${encodeURIComponent(
+          spotify.song
+        )}`}
+      >
+        {spotify.song}
+      </StyledLink>{" "}
+      by {spotify.artist} right now
+      {hasMusicContent && (
+        <>
+          . I&apos;ve been listening to a lot of{" "}
+          {formatList(
+            music.map(([artist, url]) => (
+              <StyledLink key={url} href={url}>
+                {artist}
+              </StyledLink>
+            ))
+          )}{" "}
+          recently as well
+        </>
+      )}
+    </React.Fragment>
+  ) : hasMusicContent ? (
+    <>
+      I love music a lot, and recently I&apos;ve been listening to{" "}
+      {formatList(
         music.map(([artist, url]) => (
           <StyledLink key={url} href={url}>
             {artist}
           </StyledLink>
         ))
-      )
-    : "nothing specific";
+      )}
+    </>
+  ) : (
+    "I love music a lot, though I&apos;m taking a break from my usual playlists at the moment"
+  );
 
   // Books section
   const bookElements =
@@ -78,7 +116,12 @@ const PersonalInterests: React.FC<PersonalInterestsProps> = ({
       )
     : "whatever catches my interest";
 
-  if (!hasMusicContent && !hasBookContent && !hasGameContent) {
+  if (
+    !hasMusicContent &&
+    !hasBookContent &&
+    !hasGameContent &&
+    !isListeningToSpotify
+  ) {
     return (
       <span>
         Beyond the digital realm, I enjoy music, reading, and gaming, though
@@ -90,13 +133,7 @@ const PersonalInterests: React.FC<PersonalInterestsProps> = ({
   return (
     <span>
       Beyond the digital realm, I&apos;m usually diving into other passions.{" "}
-      {hasMusicContent ? (
-        <>Lately I&apos;ve been really into {musicElements}.</>
-      ) : (
-        <>
-          Though I&apos;m taking a break from my usual playlists at the moment.
-        </>
-      )}
+      {musicElements}.
       {hasBookContent && (
         <>
           {" "}
@@ -107,7 +144,11 @@ const PersonalInterests: React.FC<PersonalInterestsProps> = ({
       {hasGameContent && (
         <>
           {" "}
-          {hasBookContent || hasMusicContent ? <>And lately, </> : <>And </>}
+          {hasBookContent || hasMusicContent || isListeningToSpotify ? (
+            <>And lately, </>
+          ) : (
+            <>And </>
+          )}
           I&apos;ve been playing {gameElements}.
         </>
       )}
