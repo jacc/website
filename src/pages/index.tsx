@@ -11,7 +11,7 @@ import Footer from "@/components/Footer";
 import PageLayout from "@/components/PageLayout";
 import clsx from "clsx";
 import { useLanyardWS } from "use-lanyard";
-import { GithubIcon, Linkedin, Twitter } from "lucide-react";
+import { GithubIcon, Linkedin, PencilIcon, Twitter } from "lucide-react";
 import StyledLink from "@/components/StyledLink";
 import SEO from "@/components/SEO";
 import { useEffect } from "react";
@@ -199,6 +199,14 @@ export default function Home(props: Props) {
                   ariaLabel="Visit my LinkedIn profile"
                 >
                   LinkedIn
+                </StyledLink>
+                <StyledLink
+                  href="/blog"
+                  icon={PencilIcon}
+                  intent="social"
+                  ariaLabel="Visit my Blog"
+                >
+                  Blog
                 </StyledLink>
               </motion.div>
             </motion.div>
