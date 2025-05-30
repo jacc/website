@@ -46,15 +46,17 @@ const Footer: React.FC<FooterProps> = ({ status, weather }) => {
   return (
     <motion.footer variants={item} className="text-sm">
       <div className="flex flex-col gap-1">
-        <p className="font-bold">
-          {weather?.location}
-          {weather?.tempF && weather?.desc && (
-            <span className="font-normal">
-              {" "}
-              — {weather.tempF}°F and {weather.desc.toLowerCase()}
-            </span>
-          )}
-        </p>
+        <StyledLink href="https://corner.inc/jack" intent="navigation">
+          <p className="font-bold">
+            {weather?.location}
+            {weather?.tempF && weather?.desc && (
+              <span className="font-normal">
+                {" "}
+                — {weather.tempF}°F and {weather.desc.toLowerCase()}
+              </span>
+            )}
+          </p>
+        </StyledLink>
 
         <div className="font-sans">
           {hasWeatherData && date
