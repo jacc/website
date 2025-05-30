@@ -89,10 +89,10 @@ export default function Tinkering({ projects }: Props) {
             className="text-base dark:text-zinc-300 font-sans mb-4"
             variants={item}
           >
-            Here’s a (semi-complete) collection of my projects, experiments, and
-            digital rabbit holes from the past few years. I’ve been tinkering
-            with computers since I was a kid — always more interested in how
-            things work than just that they do.
+            Here&apos;s a (semi-complete) collection of my projects,
+            experiments, and digital rabbit holes from the past few years.
+            I&apos;ve been tinkering with computers since I was a kid — always
+            more interested in how things work than just that they do.
           </motion.p>
           <motion.div variants={item} className="mb-8">
             <button
@@ -105,32 +105,7 @@ export default function Tinkering({ projects }: Props) {
             </button>
           </motion.div>
           <div className="relative flex">
-            {/* SVG Patterned Vertical Line */}
-            <div className="absolute inset-y-0 left-0 w-3 pointer-events-none z-0">
-              <svg className="h-full w-full" aria-hidden="true">
-                <defs>
-                  <pattern
-                    id="timeline-notch-pattern"
-                    width="6"
-                    height="8"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <path
-                      d="M0 0H6M0 8H6"
-                      className="stroke-gray-300/60"
-                      strokeWidth={1}
-                      fill="none"
-                    />
-                  </pattern>
-                </defs>
-                <rect
-                  width="100%"
-                  height="100%"
-                  fill="url(#timeline-notch-pattern)"
-                />
-              </svg>
-            </div>
-            <div className="flex-1 pl-6">
+            <motion.div variants={item} className="flex-1 pl-6">
               {Object.entries(groupedProjects).map(([month, monthProjects]) => (
                 <motion.div
                   key={month}
@@ -244,7 +219,35 @@ export default function Tinkering({ projects }: Props) {
                   </motion.div>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
+            {/* SVG Patterned Vertical Line */}
+            <motion.div
+              variants={item}
+              className="absolute inset-y-0 left-0 w-3 pointer-events-none z-0"
+            >
+              <svg className="h-full w-full" aria-hidden="true">
+                <defs>
+                  <pattern
+                    id="timeline-notch-pattern"
+                    width="6"
+                    height="8"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <path
+                      d="M0 0H6M0 8H6"
+                      className="stroke-gray-300/60"
+                      strokeWidth={1}
+                      fill="none"
+                    />
+                  </pattern>
+                </defs>
+                <rect
+                  width="100%"
+                  height="100%"
+                  fill="url(#timeline-notch-pattern)"
+                />
+              </svg>
+            </motion.div>
           </div>
         </motion.div>
       </PageLayout>
