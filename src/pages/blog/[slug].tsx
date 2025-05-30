@@ -13,30 +13,47 @@ import {
   Linkedin,
   LinkIcon,
   Twitter,
+  BookOpenIcon,
 } from "lucide-react";
 import { useEffect } from "react";
 import { useAchievements } from "@/hooks/useAchievements";
 
+interface BlogFrontmatter {
+  title: string;
+  excerpt: string;
+  date: string;
+  tags: string[];
+  private: boolean;
+  banner?: string | null;
+  header?: string | null;
+  modifiedDate?: string | null;
+  addendum?: string | null;
+}
+
+interface BlogPost {
+  slug: string;
+  frontmatter: BlogFrontmatter;
+}
+
 interface BlogPageProps {
   source: {
-    frontmatter: {
-      title: string;
-      excerpt: string;
-      date: string;
-      tags: string[];
-      addendum?: string;
-      private: boolean;
-      banner?: string;
-      header?: string;
-      modifiedDate?: string;
-    };
+    frontmatter: BlogFrontmatter;
   };
   params: {
     slug: string;
   };
+  recommendedPost?: {
+    slug: string;
+    title: string;
+    excerpt: string;
+  };
 }
 
-export default function BlogPage({ source, params }: BlogPageProps) {
+export default function BlogPage({
+  source,
+  params,
+  recommendedPost,
+}: BlogPageProps) {
   const { unlock, hasAchievement } = useAchievements();
 
   useEffect(() => {
@@ -52,7 +69,9 @@ export default function BlogPage({ source, params }: BlogPageProps) {
         description={
           source.frontmatter.excerpt || "A blog post by Jack LaFond."
         }
-        ogImage={source.frontmatter.banner || source.frontmatter.header}
+        ogImage={
+          source.frontmatter.banner || source.frontmatter.header || undefined
+        }
         canonicalUrl={`/blog/${params.slug}`}
         type="article"
         publishedTime={source.frontmatter.date}
@@ -104,8 +123,27 @@ export default function BlogPage({ source, params }: BlogPageProps) {
         <article className="prose prose-base dark:text-zinc-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200 prose-li:my-0">
           <MDXRemote compiledSource={""} scope={undefined} {...source} />
         </article>
+
         <div className="border-t border-zinc-200 dark:border-zinc-800 pt-8">
-          <div className="flex gap-4">
+          {recommendedPost && (
+            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
+              <div className="flex items-center gap-2 mb-2">
+                <BookOpenIcon className="w-5 h-5 text-blue-500" />
+                <h3 className="text-lg font-serif font-medium">
+                  You might also like...
+                </h3>
+              </div>
+              <StyledLink
+                href={`/blog/${recommendedPost.slug}`}
+                className="block"
+              >
+                <h4 className="text-base font-serif font-medium hover:text-blue-500 transition-colors">
+                  {recommendedPost.title}
+                </h4>
+              </StyledLink>
+            </div>
+          )}
+          <div className="flex gap-4 mt-4">
             <StyledLink
               href="#"
               onClick={(e) => {
@@ -170,10 +208,59 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const mdxSource = await serialize(source, { parseFrontmatter: true });
 
+  // Get all blog posts for recommendations
+  const files = fs.readdirSync(path.join(process.cwd(), "src/blog"));
+  const allPosts: BlogPost[] = await Promise.all(
+    files.map(async (filename) => {
+      const content = await Bun.file(
+        path.join(process.cwd(), "src/blog", filename)
+      ).text();
+      const { frontmatter } = await serialize(content, {
+        parseFrontmatter: true,
+      });
+      return {
+        slug: filename.replace(".mdx", ""),
+        frontmatter: {
+          title: frontmatter.title as string,
+          excerpt: frontmatter.excerpt as string,
+          date: frontmatter.date as string,
+          tags: (frontmatter.tags as string[]) || [],
+          private: frontmatter.private as boolean,
+          banner: frontmatter.banner as string | null,
+          header: frontmatter.header as string | null,
+          modifiedDate: frontmatter.modifiedDate as string | null,
+          addendum: frontmatter.addendum as string | null,
+        },
+      };
+    })
+  );
+
+  // Find a recommended post with shared tags
+  const currentPost = allPosts.find((post) => post.slug === params?.slug);
+  const recommendedPost = currentPost?.frontmatter.tags
+    ? allPosts
+        .filter(
+          (post) =>
+            post.slug !== params?.slug && // Not the current post
+            !post.frontmatter.private && // Not a private post
+            post.frontmatter.tags.some((tag) =>
+              currentPost.frontmatter.tags.includes(tag)
+            ) // Has at least one shared tag
+        )
+        .sort(() => Math.random() - 0.5)[0] // Get a random post
+    : null;
+
   return {
     props: {
       source: mdxSource,
       params,
+      recommendedPost: recommendedPost
+        ? {
+            slug: recommendedPost.slug,
+            title: recommendedPost.frontmatter.title,
+            excerpt: recommendedPost.frontmatter.excerpt,
+          }
+        : null,
     },
   };
 };
