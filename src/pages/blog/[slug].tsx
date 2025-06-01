@@ -6,6 +6,7 @@ import path from "path";
 import PageLayout from "@/components/PageLayout";
 import StyledLink from "@/components/StyledLink";
 import SEO from "@/components/SEO";
+import { BlogNotice } from "@/components/BlogNotice";
 import {
   AlertTriangleIcon,
   GithubIcon,
@@ -49,6 +50,10 @@ interface BlogPageProps {
   };
 }
 
+const components = {
+  BlogNotice,
+};
+
 export default function BlogPage({
   source,
   params,
@@ -82,12 +87,11 @@ export default function BlogPage({
       />
       <PageLayout showBackButton>
         {source.frontmatter.private && (
-          <div className="p-3 rounded-lg bg-red-100 dark:bg-red-900/20 border border-red-400 dark:border-red-500 text-red-800 dark:text-red-200">
-            <AlertTriangleIcon className="w-5 h-5 inline-block mr-2" />
+          <BlogNotice variant="red" icon={AlertTriangleIcon}>
             Hey! I&apos;m not sure if you&apos;re reading this, but this post is
             private and not publicly listed. Please don&apos;t share this
             around!
-          </div>
+          </BlogNotice>
         )}
         <div className="flex flex-col gap-1">
           <h1 className="text-2xl font-bold font-serif">
@@ -111,17 +115,18 @@ export default function BlogPage({
         </div>
 
         {source.frontmatter.addendum && (
-          <div className="mt-1">
-            <p className="text-md font-sans rounded-lg bg-[#DBE9FE] dark:bg-[#1E3A8A]/20 border border-[#2463EB] dark:border-[#3B82F6] text-[#2463EB] dark:text-[#60A5FA] p-3">
-              <HandIcon className="w-5 h-5 inline-block mr-2" />
-              <span className="font-bold">Editor&apos;s Note:</span>{" "}
-              {source.frontmatter.addendum}
-            </p>
-          </div>
+          <BlogNotice variant="blue" icon={HandIcon} title="Editor's Note:">
+            {source.frontmatter.addendum}
+          </BlogNotice>
         )}
 
         <article className="prose prose-base dark:text-zinc-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200 prose-li:my-0">
-          <MDXRemote compiledSource={""} scope={undefined} {...source} />
+          <MDXRemote
+            compiledSource={""}
+            components={components}
+            scope={{}}
+            {...source}
+          />
         </article>
 
         <div className="border-t border-zinc-200 dark:border-zinc-800 pt-8">
@@ -206,7 +211,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     path.join(process.cwd(), "src/blog", `${params?.slug}.mdx`)
   ).text();
 
-  const mdxSource = await serialize(source, { parseFrontmatter: true });
+  const mdxSource = await serialize(source, {
+    parseFrontmatter: true,
+  });
 
   // Get all blog posts for recommendations
   const files = fs.readdirSync(path.join(process.cwd(), "src/blog"));
