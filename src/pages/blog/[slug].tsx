@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { useEffect } from "react";
 import { useAchievements } from "@/hooks/useAchievements";
+import { env } from "@/utilities/env";
 
 interface BlogFrontmatter {
   title: string;
@@ -29,6 +30,7 @@ interface BlogFrontmatter {
   header?: string | null;
   modifiedDate?: string | null;
   addendum?: string | null;
+  views: number;
 }
 
 interface BlogPost {
@@ -111,6 +113,10 @@ export default function BlogPage({
                 ))}
               </>
             )}
+            {" · "}
+            <span className="text-sm text-zinc-500 dark:text-zinc-600">
+              {source.frontmatter.views.toLocaleString()} views
+            </span>
           </p>
         </div>
 
@@ -215,6 +221,33 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     parseFrontmatter: true,
   });
 
+  // Fetch Plausible views for this post
+  let views = 0;
+  try {
+    const url = `https://${
+      env.PLAUSIBLE_URL
+    }/api/v1/stats/aggregate?site_id=jack.bio&period=custom&date=2023-01-01,${
+      new Date().toISOString().split("T")[0]
+    }&filters=event:page==/blog/${params?.slug}`;
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${env.PLAUSIBLE_API_KEY}`,
+        Accept: "application/json",
+      },
+    });
+    const data = await response.json();
+    views = data?.results?.visitors?.value ?? 0;
+  } catch (error) {
+    console.error(`Error fetching views for ${params?.slug}:`, error);
+    views = 0;
+  }
+
+  // Inject views into frontmatter
+  mdxSource.frontmatter = {
+    ...mdxSource.frontmatter,
+    views,
+  };
+
   // Get all blog posts for recommendations
   const files = fs.readdirSync(path.join(process.cwd(), "src/blog"));
   const allPosts: BlogPost[] = await Promise.all(
@@ -225,6 +258,28 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const { frontmatter } = await serialize(content, {
         parseFrontmatter: true,
       });
+
+      // Get views from Plausible
+      let views = 0;
+      try {
+        const url = `https://${
+          env.PLAUSIBLE_URL
+        }/api/v1/stats/aggregate?site_id=jack.bio&period=custom&date=2023-01-01,${
+          new Date().toISOString().split("T")[0]
+        }&filters=event:page==/blog/${filename.replace(".mdx", "")}`;
+        const response = await fetch(url, {
+          headers: {
+            Authorization: `Bearer ${env.PLAUSIBLE_API_KEY}`,
+            Accept: "application/json",
+          },
+        });
+        const data = await response.json();
+        views = data?.results?.visitors?.value ?? 0;
+      } catch (error) {
+        console.error(`Error fetching views for ${filename}:`, error);
+        views = 0;
+      }
+
       return {
         slug: filename.replace(".mdx", ""),
         frontmatter: {
@@ -237,6 +292,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           header: frontmatter.header as string | null,
           modifiedDate: frontmatter.modifiedDate as string | null,
           addendum: frontmatter.addendum as string | null,
+          views: views,
         },
       };
     })
@@ -269,5 +325,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           }
         : null,
     },
+    revalidate: 3600,
   };
 };
