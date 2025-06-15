@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
       "a.ltrbxd.com",
       "images-na.ssl-images-amazon.com",
       "assets.hardcover.app",
+      "cdn.steamgriddb.com",
+      "cdn2.steamgriddb.com",
     ],
   },
 };

@@ -4,6 +4,10 @@ import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { getCompletedBooks } from "@/server/hardcover";
+import {
+  getSteamRecentGames,
+  SteamGame as SteamGameType,
+} from "@/server/steam";
 import SEO from "@/components/SEO";
 
 interface Movie {
@@ -29,19 +33,33 @@ interface Book {
   link: string;
 }
 
+type MediaItem = {
+  type: "book" | "movie" | "game";
+  date: string;
+  isCurrentlyReading: boolean;
+  title: string;
+  coverUrl: string | null;
+  link: string;
+  rating?: number | null;
+  playtime?: number | null;
+};
+
 type Props = {
   movies: Movie[];
   books: Book[];
+  steamGames: SteamGameType[];
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
   const movies = await getLetterboxdMovies();
   const books = await getCompletedBooks();
+  const { games: steamGames } = await getSteamRecentGames();
 
   return {
     props: {
       movies,
       books,
+      steamGames,
     },
     revalidate: 10,
   };
@@ -53,26 +71,44 @@ export default function Shelf(props: Props) {
   );
 
   // Combine all media items
-  const allMedia = [
+  const allMedia: MediaItem[] = [
     ...currentlyReading.map((book) => ({
-      ...book,
       type: "book" as const,
       date: book.startedDate,
       isCurrentlyReading: true,
+      title: book.title,
+      coverUrl: book.coverUrl,
+      link: book.link,
+      rating: book.rating,
     })),
     ...props.books
       .filter((book) => book.status === "completed")
       .map((book) => ({
-        ...book,
         type: "book" as const,
         date: book.completedDate || book.startedDate,
         isCurrentlyReading: false,
+        title: book.title,
+        coverUrl: book.coverUrl,
+        link: book.link,
+        rating: book.rating,
       })),
     ...props.movies.map((movie) => ({
-      ...movie,
       type: "movie" as const,
       date: movie.watchedDate,
       isCurrentlyReading: false,
+      title: movie.title,
+      coverUrl: movie.posterUrl,
+      link: movie.link,
+      rating: movie.rating,
+    })),
+    ...props.steamGames.map((game) => ({
+      type: "game" as const,
+      date: new Date().toISOString(),
+      isCurrentlyReading: false,
+      title: game.name,
+      coverUrl: game.gridUrl || null,
+      link: `https://store.steampowered.com/app/${game.appid}`,
+      playtime: Math.floor(game.playtime_2weeks / 60),
     })),
   ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
@@ -93,10 +129,10 @@ export default function Shelf(props: Props) {
           read, and watched recently.
         </p>
         <div className="grid grid-cols-3 lg:grid-cols-4 gap-4">
-          {allMedia.map((item) => (
+          {allMedia.map((item, index) => (
             <Link
               key={`${item.type}-${item.title}`}
-              href={item.type === "movie" ? item.link : item.link}
+              href={item.link}
               className={`relative aspect-[2/3] rounded-lg overflow-hidden hover:opacity-90 transition-opacity ${
                 item.isCurrentlyReading
                   ? "ring-2 ring-blue-500 ring-offset-2"
@@ -107,15 +143,17 @@ export default function Shelf(props: Props) {
                 item.link.startsWith("http") ? "noopener noreferrer" : undefined
               }
             >
-              {(item.type === "movie" ? item.posterUrl : item.coverUrl) && (
+              {item.coverUrl && (
                 <Image
-                  src={item.type === "movie" ? item.posterUrl! : item.coverUrl!}
+                  src={item.coverUrl}
                   alt={item.title}
                   fill
+                  sizes="(max-width: 768px) 33vw, (max-width: 1200px) 25vw, 20vw"
+                  priority={index === 0}
                   className="object-cover"
                 />
               )}
-              {(item.rating || (item.type === "movie" && item.rating)) && (
+              {item.rating && (
                 <div className="absolute top-2 right-2 bg-[#FAFAFA] border border-zinc-500/50 text-[#525252] text-xs px-2 py-1 rounded-full backdrop-blur-sm">
                   {item.rating} ⭐
                 </div>

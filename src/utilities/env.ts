@@ -9,5 +9,6 @@ export const env = z
     HARDCOVER_API_TOKEN: z.string(),
     PLAUSIBLE_URL: z.string(),
     PLAUSIBLE_API_KEY: z.string(),
+    STEAMGRID_API_KEY: z.string(),
   })
   .parse(process.env);
