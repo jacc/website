@@ -41,7 +41,7 @@ export class LastFM {
     return this.req<GetTopArtistsResponse>({
       user,
       method: "user.gettopartists",
-      period: "3month",
+      period: "1month",
     }).then((res) => {
       return res.topartists.artist
         .map((artist) => [artist.name, artist.url] as [string, string])

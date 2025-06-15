@@ -8,7 +8,7 @@ const linkVariants = cva("transition-colors duration-150 ease-in-out", {
   variants: {
     intent: {
       primary:
-        "underline underline-offset-2 decoration-zinc-500/50 hover:text-zinc-700 dark:hover:text-zinc-400",
+        "underline underline-offset-2 decoration-zinc-500/50 hover:text-zinc-500 dark:hover:text-zinc-400",
       social:
         "text-base underline underline-offset-2 decoration-zinc-500/50 hover:text-zinc-600 dark:hover:text-zinc-400",
       navigation: "hover:text-zinc-700 dark:hover:text-zinc-400",

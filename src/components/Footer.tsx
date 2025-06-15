@@ -68,19 +68,19 @@ const Footer: React.FC<FooterProps> = ({ status, weather }) => {
         </div>
       </div>
       <nav className="flex items-center gap-1 mt-1">
-        <StyledLink href="/shelf" intent="navigation">
+        <StyledLink href="/shelf" intent="primary">
           Digital Shelf
         </StyledLink>
         <span>⊹</span>
-        <StyledLink href="/tinkering" intent="navigation">
+        <StyledLink href="/tinkering" intent="primary">
           Tinkering
         </StyledLink>
         <span>⊹</span>
-        <StyledLink href="/blog" intent="navigation">
+        <StyledLink href="/blog" intent="primary">
           Blog
         </StyledLink>
         <span>⊹</span>
-        <StyledLink href="/labs" intent="navigation">
+        <StyledLink href="/labs" intent="primary">
           LaFond Labs™
         </StyledLink>
       </nav>

@@ -31,10 +31,9 @@ const LastFmMusic: React.FC<LastFmMusicProps> = ({ music }) => {
       {introText}
       {musicElements.map((element, index) => (
         <React.Fragment key={music[index][1]}>
-          {" "}
+          {index === 0 ? "" : " "}
           {element}
-          {index < musicElements.length - 1 &&
-            (index === musicElements.length - 2 ? " and " : ", ")}
+          {index < musicElements.length - 1 && " & "}
         </React.Fragment>
       ))}
       {outroText}
