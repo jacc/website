@@ -234,6 +234,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         Authorization: `Bearer ${env.PLAUSIBLE_API_KEY}`,
         Accept: "application/json",
       },
+      next: { revalidate: 3600 },
     });
     const data = await response.json();
     views = data?.results?.visitors?.value ?? 0;
@@ -272,6 +273,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             Authorization: `Bearer ${env.PLAUSIBLE_API_KEY}`,
             Accept: "application/json",
           },
+          next: { revalidate: 3600 },
         });
         const data = await response.json();
         views = data?.results?.visitors?.value ?? 0;
@@ -325,6 +327,5 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           }
         : null,
     },
-    revalidate: 3600,
   };
 };
