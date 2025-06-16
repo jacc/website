@@ -17,7 +17,7 @@ interface Props {
     link?: string;
     links?: { [key: string]: string }[];
     isActive?: boolean;
-    isAbandoned?: boolean;
+    isSunsetted?: boolean;
   }[];
 }
 
@@ -164,9 +164,9 @@ export default function Tinkering({ projects }: Props) {
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                               </span>
                             )}
-                            {project.isAbandoned && (
+                            {project.isSunsetted && (
                               <span className="ml-3 px-2 py-0.5 text-xs text-red-800 border border-red-500 bg-red-100 rounded-lg dark:bg-red-700 dark:text-red-100">
-                                Abandoned
+                                Sunsetted
                               </span>
                             )}
                           </div>

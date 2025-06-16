@@ -7,7 +7,7 @@ interface TinkeringProject {
   link?: string;
   links?: { [key: string]: string }[];
   isActive?: boolean;
-  isAbandoned?: boolean;
+  isSunsetted?: boolean;
 }
 
 export const tinkeringProjects: TinkeringProject[] = [
@@ -90,7 +90,7 @@ export const tinkeringProjects: TinkeringProject[] = [
         GitHub: "https://github.com/jacc/tunes.ninja",
       },
     ],
-    isAbandoned: true,
+    isSunsetted: true,
   },
   {
     id: "8",
@@ -143,7 +143,7 @@ export const tinkeringProjects: TinkeringProject[] = [
       "Commerically sold Discord bot used to send 1,500,000+ webhook messages in item reselling groups.",
     date: "2020-08",
     tags: ["Python", "API"],
-    isAbandoned: true,
+    isSunsetted: true,
   },
   {
     id: "13",
@@ -152,7 +152,7 @@ export const tinkeringProjects: TinkeringProject[] = [
       "Custom developed Discord bot used to scrape eBay listings and correlate them with a database of users.",
     date: "2020-09",
     tags: ["Python", "Web Scraping"],
-    isAbandoned: true,
+    isSunsetted: true,
   },
   {
     id: "14",
@@ -161,7 +161,7 @@ export const tinkeringProjects: TinkeringProject[] = [
       "iOS jailbreaking tweak used to play Wii channel music while using the device.",
     date: "2020-02",
     tags: ["iOS"],
-    isAbandoned: true,
+    isSunsetted: true,
   },
   {
     id: "15",
@@ -170,7 +170,7 @@ export const tinkeringProjects: TinkeringProject[] = [
       "Google Assistant action used to answer questions about numbers.",
     date: "2017-12",
     tags: ["Google Assistant", "Node.js"],
-    isAbandoned: true,
+    isSunsetted: true,
   },
 ];
 
