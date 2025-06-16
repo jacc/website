@@ -9,6 +9,7 @@ interface SEOProps {
   publishedTime?: string;
   modifiedTime?: string;
   tags?: string[];
+  keywords?: string[];
 }
 
 const SEO: React.FC<SEOProps> = ({
@@ -20,6 +21,7 @@ const SEO: React.FC<SEOProps> = ({
   publishedTime,
   modifiedTime,
   tags,
+  keywords,
 }) => {
   const siteUrl = "https://jack.bio";
   const fullCanonicalUrl = canonicalUrl ? `${siteUrl}${canonicalUrl}` : siteUrl;
@@ -35,6 +37,9 @@ const SEO: React.FC<SEOProps> = ({
       {/* Basic Meta */}
       <meta name="description" content={description} />
       <meta name="robots" content="index, follow" />
+      {keywords && keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(", ")} />
+      )}
 
       {/* Open Graph */}
       <meta property="og:title" content={title} />

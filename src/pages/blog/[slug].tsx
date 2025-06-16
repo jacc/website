@@ -31,6 +31,7 @@ interface BlogFrontmatter {
   modifiedDate?: string | null;
   addendum?: string | null;
   views: number;
+  keywords?: string[];
 }
 
 interface BlogPost {
@@ -86,6 +87,7 @@ export default function BlogPage({
           source.frontmatter.modifiedDate || source.frontmatter.date
         }
         tags={source.frontmatter.tags}
+        keywords={source.frontmatter.keywords}
       />
       <PageLayout showBackButton>
         {source.frontmatter.private && (
@@ -295,6 +297,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           modifiedDate: frontmatter.modifiedDate as string | null,
           addendum: frontmatter.addendum as string | null,
           views: views,
+          keywords: frontmatter.keywords as string[] | undefined,
         },
       };
     })
