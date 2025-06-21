@@ -100,7 +100,7 @@ export const PostPreview = ({
           </p>
         </div>
       )}
-      <div className="h-px rounded-full bg-neutral-100/50 dark:bg-neutral-800 mt-4" />
+      <div className="h-px rounded-full bg-neutral-200 dark:bg-neutral-800 mt-4" />
     </motion.div>
   );
 };
