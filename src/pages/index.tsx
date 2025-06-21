@@ -109,7 +109,7 @@ export default function Home(props: Props) {
                 break, and bother digital systems. That&apos;s led to some
                 pretty cool stories:
               </p>
-              <ul className="list-disc ml-4 text-base dark:text-neutral-300 font-sans mt-2">
+              <ul className="list-[circle] ml-4 text-base dark:text-neutral-300 font-sans mt-2">
                 <li>
                   <StyledLink href="/blog/life360">
                     Reversing Life360 and going viral for it
@@ -168,8 +168,13 @@ export default function Home(props: Props) {
               One of my favorite things about the internet is how it connects
               people from all over the world. Feel free to reach out if
               you&apos;d like to chat! My Discord is{" "}
-              <span className="font-serif italic text-sm">@lafond</span> -
-              I&apos;m currently <Status status={status} />.
+              <StyledLink
+                href="discord://-/users/657057112593268756"
+                className="font-serif italic text-sm"
+              >
+                @lafond
+              </StyledLink>{" "}
+              - I&apos;m currently <Status status={status} />.
             </motion.p>
             <motion.div variants={item} className="flex flex-col gap-2">
               <motion.p className="text-base dark:text-neutral-300 font-sans">

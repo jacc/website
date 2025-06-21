@@ -47,7 +47,7 @@ const Footer: React.FC<FooterProps> = ({ status, weather }) => {
     <motion.footer variants={item} className="text-sm">
       <div className="flex flex-col gap-1">
         <StyledLink href="https://corner.inc/jack" intent="navigation">
-          <p className="font-bold">
+          <p className="font-medium">
             {weather?.location}
             {weather?.tempF && weather?.desc && (
               <span className="font-normal">
@@ -71,15 +71,11 @@ const Footer: React.FC<FooterProps> = ({ status, weather }) => {
         <StyledLink href="/shelf" intent="primary">
           Digital Shelf
         </StyledLink>
-        <span>⊹</span>
+        <span>✧</span>
         <StyledLink href="/tinkering" intent="primary">
           Tinkering
         </StyledLink>
-        <span>⊹</span>
-        <StyledLink href="/blog" intent="primary">
-          Blog
-        </StyledLink>
-        <span>⊹</span>
+        <span>✧</span>
         <StyledLink href="/labs" intent="primary">
           LaFond Labs™
         </StyledLink>

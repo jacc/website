@@ -41,9 +41,7 @@ export const Status = ({ status }: StatusProps) => {
     status.toLowerCase() === "offline" || status.toLowerCase() === "";
 
   return (
-    <span
-      className={clsx(`${color}`, !isOffline && "underline underline-offset-2")}
-    >
+    <span className={clsx(`${color}`, !isOffline)}>
       {getStatusText(status)}
     </span>
   );
