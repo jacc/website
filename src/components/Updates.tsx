@@ -43,7 +43,7 @@ const StatusPill = () => {
       >
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-400 px-4 py-2 rounded-[20px] text-sm font-medium shadow-lg hover:shadow-xl transition-shadow duration-200"
+          className="bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-400 px-4 py-2 rounded-[20px] text-sm font-medium shadow-lg hover:shadow-xl transition-shadow duration-200"
         >
           {status}
         </button>
@@ -76,12 +76,12 @@ const StatusPill = () => {
                       stiffness: 500,
                     }}
                     className={clsx(
-                      "bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-400",
+                      "bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-400",
                       "rounded-[20px] px-4 py-2 shadow-lg"
                     )}
                   >
                     <p className="text-sm">{update.text}</p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-500 mt-1">
+                    <p className="text-xs text-neutral-500 dark:text-neutral-500 mt-1">
                       {update.timestamp}
                     </p>
                   </motion.div>

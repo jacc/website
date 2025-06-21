@@ -13,7 +13,7 @@ const blogNoticeVariants = cva(
           "bg-[#DCFCE7] dark:bg-[#14532D]/20 border-[#22C55E] dark:border-[#4ADE80] text-[#16A34A] dark:text-[#4ADE80]",
         yellow:
           "bg-[#FEF9C3] dark:bg-[#854D0E]/20 border-[#EAB308] dark:border-[#FACC15] text-[#854D0E] dark:text-[#FACC15]",
-        grey: "bg-zinc-50 dark:bg-zinc-900/50 border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300",
+        grey: "bg-neutral-50 dark:bg-neutral-900/50 border-neutral-200 dark:border-neutral-800 text-neutral-700 dark:text-neutral-300",
       },
     },
     defaultVariants: {

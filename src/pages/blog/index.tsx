@@ -7,6 +7,7 @@ import { PostPreview } from "@/components/PostPreview";
 import { motion } from "framer-motion";
 import { group } from "@/utilities/constants";
 import SEO from "@/components/SEO";
+import { getPlausibleViewsForMultipleSlugs } from "@/utilities/plausible";
 
 interface BlogPost {
   title: string;
@@ -15,6 +16,8 @@ interface BlogPost {
   tags?: string[];
   slug: string;
   private?: boolean;
+  views: number;
+  externalUrl?: string | null;
 }
 
 interface BlogIndexProps {
@@ -45,6 +48,7 @@ export default function BlogIndex({ posts }: BlogIndexProps) {
                 date={post.date}
                 tags={post.tags}
                 slug={post.slug}
+                externalUrl={post.externalUrl}
               />
             ))}
           </div>
@@ -72,21 +76,28 @@ export const getStaticProps: GetStaticProps<BlogIndexProps> = async () => {
         tags: (mdxSource.frontmatter.tags as string[]) || null,
         slug: filename.replace(".mdx", ""),
         private: (mdxSource.frontmatter.private as boolean) || false,
+        externalUrl: (mdxSource.frontmatter.externalUrl as string) || null,
       };
     })
   );
 
-  // Filter out private posts
   const publicPosts = posts.filter((post) => !post.private);
 
-  // Sort posts by date in descending order
-  publicPosts.sort(
+  const slugs = publicPosts.map((post) => post.slug);
+  const viewsMap = await getPlausibleViewsForMultipleSlugs(slugs);
+
+  const postsWithViews = publicPosts.map((post) => ({
+    ...post,
+    views: viewsMap[post.slug] || 0,
+  }));
+
+  postsWithViews.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 
   return {
     props: {
-      posts: publicPosts,
+      posts: postsWithViews,
     },
   };
 };

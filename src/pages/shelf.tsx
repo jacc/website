@@ -122,7 +122,7 @@ export default function Shelf(props: Props) {
         <h1 className="text-2xl font-bold font-serif">
           Jack&apos;s Digital Shelf
         </h1>
-        <p className="text-base dark:text-zinc-300 font-sans">
+        <p className="text-base dark:text-neutral-300 font-sans">
           By nature, humans are social creatures. We crave connection, and one
           of the most popular ways to share connection is through a love of
           films, literature, and music. Below are some things I&apos;ve played,
@@ -154,7 +154,7 @@ export default function Shelf(props: Props) {
                 />
               )}
               {item.rating && (
-                <div className="absolute top-2 right-2 bg-[#FAFAFA] border border-zinc-500/50 text-[#525252] text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+                <div className="absolute top-2 right-2 bg-[#FAFAFA] border border-neutral-500/50 text-[#525252] text-xs px-2 py-1 rounded-full backdrop-blur-sm">
                   {item.rating} ⭐
                 </div>
               )}

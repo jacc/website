@@ -18,7 +18,10 @@ import {
 } from "lucide-react";
 import { useEffect } from "react";
 import { useAchievements } from "@/hooks/useAchievements";
-import { env } from "@/utilities/env";
+import {
+  getPlausibleViews,
+  getPlausibleViewsForMultipleSlugs,
+} from "@/utilities/plausible";
 
 interface BlogFrontmatter {
   title: string;
@@ -32,6 +35,7 @@ interface BlogFrontmatter {
   addendum?: string | null;
   views: number;
   keywords?: string[];
+  externalUrl?: string;
 }
 
 interface BlogPost {
@@ -102,7 +106,7 @@ export default function BlogPage({
             {source.frontmatter.title}
           </h1>
           <h2 className="text-lg font-serif">{source.frontmatter.excerpt}</h2>
-          <p className="text-sm text-zinc-500 dark:text-zinc-600">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400">
             Written on {source.frontmatter.date}
             {source.frontmatter.tags && source.frontmatter.tags.length > 0 && (
               <>
@@ -116,7 +120,7 @@ export default function BlogPage({
               </>
             )}
             {" · "}
-            <span className="text-sm text-zinc-500 dark:text-zinc-600">
+            <span className="text-sm text-neutral-500 dark:text-neutral-400">
               {source.frontmatter.views.toLocaleString()} views
             </span>
           </p>
@@ -128,7 +132,7 @@ export default function BlogPage({
           </BlogNotice>
         )}
 
-        <article className="prose prose-base dark:text-zinc-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200 prose-li:my-0">
+        <article className="prose prose-base dark:text-neutral-300 text-[var(--foreground)] prose-headings:font-serif prose-headings:text-xl prose-headings:mt-2 prose-headings:mb-2 prose-p:font-sans prose-a:text-blue-500 dark:prose-invert prose-p:leading-normal prose-img:rounded-lg prose-img:w-full prose-img:my-4 prose-img:mx-auto prose-img:max-w-full prose-img:border prose-img:shrink-0 prose-img:shadow-sm prose-img:border-gray-200 prose-li:my-0">
           <MDXRemote
             compiledSource={""}
             components={components}
@@ -137,9 +141,9 @@ export default function BlogPage({
           />
         </article>
 
-        <div className="border-t border-zinc-200 dark:border-zinc-800 pt-8">
+        <div className="border-t border-neutral-200 dark:border-neutral-800 pt-8">
           {recommendedPost && (
-            <div className="p-4 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50">
+            <div className="p-4 rounded-lg border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-900/50">
               <div className="flex items-center gap-2 mb-2">
                 <BookOpenIcon className="w-5 h-5 text-blue-500" />
                 <h3 className="text-lg font-serif font-medium">
@@ -224,26 +228,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   });
 
   // Fetch Plausible views for this post
-  let views = 0;
-  try {
-    const url = `https://${
-      env.PLAUSIBLE_URL
-    }/api/v1/stats/aggregate?site_id=jack.bio&period=custom&date=2023-01-01,${
-      new Date().toISOString().split("T")[0]
-    }&filters=event:page==/blog/${params?.slug}`;
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${env.PLAUSIBLE_API_KEY}`,
-        Accept: "application/json",
-      },
-      next: { revalidate: 3600 },
-    });
-    const data = await response.json();
-    views = data?.results?.visitors?.value ?? 0;
-  } catch (error) {
-    console.error(`Error fetching views for ${params?.slug}:`, error);
-    views = 0;
-  }
+  const views = await getPlausibleViews(params?.slug as string);
 
   // Inject views into frontmatter
   mdxSource.frontmatter = {
@@ -262,28 +247,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         parseFrontmatter: true,
       });
 
-      // Get views from Plausible
-      let views = 0;
-      try {
-        const url = `https://${
-          env.PLAUSIBLE_URL
-        }/api/v1/stats/aggregate?site_id=jack.bio&period=custom&date=2023-01-01,${
-          new Date().toISOString().split("T")[0]
-        }&filters=event:page==/blog/${filename.replace(".mdx", "")}`;
-        const response = await fetch(url, {
-          headers: {
-            Authorization: `Bearer ${env.PLAUSIBLE_API_KEY}`,
-            Accept: "application/json",
-          },
-          next: { revalidate: 3600 },
-        });
-        const data = await response.json();
-        views = data?.results?.visitors?.value ?? 0;
-      } catch (error) {
-        console.error(`Error fetching views for ${filename}:`, error);
-        views = 0;
-      }
-
       return {
         slug: filename.replace(".mdx", ""),
         frontmatter: {
@@ -296,17 +259,31 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           header: frontmatter.header as string | null,
           modifiedDate: frontmatter.modifiedDate as string | null,
           addendum: frontmatter.addendum as string | null,
-          views: views,
+          views: 0, // Will be updated below
           keywords: frontmatter.keywords as string[] | undefined,
+          externalUrl: frontmatter.externalUrl as string | undefined,
         },
       };
     })
   );
 
+  // Get views for all posts in parallel
+  const slugs = allPosts.map((post) => post.slug);
+  const viewsMap = await getPlausibleViewsForMultipleSlugs(slugs);
+
+  // Update posts with views
+  const postsWithViews = allPosts.map((post) => ({
+    ...post,
+    frontmatter: {
+      ...post.frontmatter,
+      views: viewsMap[post.slug] || 0,
+    },
+  }));
+
   // Find a recommended post with shared tags
-  const currentPost = allPosts.find((post) => post.slug === params?.slug);
+  const currentPost = postsWithViews.find((post) => post.slug === params?.slug);
   const recommendedPost = currentPost?.frontmatter.tags
-    ? allPosts
+    ? postsWithViews
         .filter(
           (post) =>
             post.slug !== params?.slug && // Not the current post

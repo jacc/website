@@ -94,7 +94,7 @@ export default function Home(props: Props) {
           </motion.div>
           <motion.div className="flex flex-col gap-4" variants={group}>
             <motion.p
-              className="text-base dark:text-zinc-300 font-sans"
+              className="text-base dark:text-neutral-300 font-sans"
               variants={item}
             >
               Hi! I&apos;m Jack. I&apos;ve been called many things over the
@@ -104,12 +104,12 @@ export default function Home(props: Props) {
               around for my MBA!)
             </motion.p>
             <motion.div variants={item}>
-              <p className="text-base dark:text-zinc-300 font-sans">
+              <p className="text-base dark:text-neutral-300 font-sans">
                 Over the last decade, I&apos;ve been learning how to build,
                 break, and bother digital systems. That&apos;s led to some
                 pretty cool stories:
               </p>
-              <ul className="list-disc ml-4 text-base dark:text-zinc-300 font-sans mt-2">
+              <ul className="list-disc ml-4 text-base dark:text-neutral-300 font-sans mt-2">
                 <li>
                   <StyledLink href="/blog/life360">
                     Reversing Life360 and going viral for it
@@ -134,7 +134,7 @@ export default function Home(props: Props) {
               </ul>
             </motion.div>
             <motion.p
-              className="text-base dark:text-zinc-300 font-sans"
+              className="text-base dark:text-neutral-300 font-sans"
               variants={item}
             >
               I&apos;m currently working at Security Innovation as a Security
@@ -142,7 +142,7 @@ export default function Home(props: Props) {
               use.
             </motion.p>
             <motion.p
-              className="text-base dark:text-zinc-300 font-sans"
+              className="text-base dark:text-neutral-300 font-sans"
               variants={item}
             >
               My passion for cybersecurity and computer science keeps me busy,
@@ -151,7 +151,7 @@ export default function Home(props: Props) {
               home lab.
             </motion.p>
             <motion.p
-              className="text-base dark:text-zinc-300 font-sans"
+              className="text-base dark:text-neutral-300 font-sans"
               variants={item}
             >
               <PersonalInterests
@@ -162,7 +162,7 @@ export default function Home(props: Props) {
               />
             </motion.p>
             <motion.p
-              className="text-base dark:text-zinc-300 font-sans"
+              className="text-base dark:text-neutral-300 font-sans"
               variants={item}
             >
               One of my favorite things about the internet is how it connects
@@ -172,7 +172,7 @@ export default function Home(props: Props) {
               I&apos;m currently <Status status={status} />.
             </motion.p>
             <motion.div variants={item} className="flex flex-col gap-2">
-              <motion.p className="text-base dark:text-zinc-300 font-sans">
+              <motion.p className="text-base dark:text-neutral-300 font-sans">
                 You can also find me scattered across the internet here:
               </motion.p>
               <motion.div variants={item} className="flex gap-4">

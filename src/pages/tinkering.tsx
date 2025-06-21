@@ -86,7 +86,7 @@ export default function Tinkering({ projects }: Props) {
             Tinkering
           </motion.h1>
           <motion.p
-            className="text-base dark:text-zinc-300 font-sans mb-4"
+            className="text-base dark:text-neutral-300 font-sans mb-4"
             variants={item}
           >
             Here&apos;s a (semi-complete) collection of my projects,
