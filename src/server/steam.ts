@@ -22,26 +22,32 @@ async function getSteamGridUrls(
   appids: number[]
 ): Promise<Record<number, string>> {
   try {
-    const gridData = await fetch(
-      `https://www.steamgriddb.com/api/v2/grids/steam/${appids.join(
-        ","
-      )}?limit=1`,
-      {
-        headers: {
-          Authorization: `Bearer ${env.STEAMGRID_API_KEY}`,
-        },
-      }
-    );
-    const gridJson = await gridData.json();
-
     const urlMap: Record<number, string> = {};
-    gridJson.data.forEach(
-      (item: { data: { url: string }[] }, index: number) => {
-        if (item.data && item.data.length > 0) {
-          urlMap[appids[index]] = item.data[0].url;
+
+    for (const appid of appids) {
+      try {
+        const gridData = await fetch(
+          `https://www.steamgriddb.com/api/v2/grids/steam/${appid}?limit=1`,
+          {
+            headers: {
+              Authorization: `Bearer ${env.STEAMGRID_API_KEY}`,
+            },
+          }
+        );
+        const gridJson = await gridData.json();
+
+        if (
+          gridJson.success &&
+          gridJson.data &&
+          Array.isArray(gridJson.data) &&
+          gridJson.data.length > 0
+        ) {
+          urlMap[appid] = gridJson.data[0].url;
         }
+      } catch (error) {
+        console.error(`Error fetching grid for appid ${appid}:`, error);
       }
-    );
+    }
 
     return urlMap;
   } catch (error) {
@@ -61,25 +67,24 @@ export async function getSteamRecentGames(): Promise<SteamRecentGamesResponse> {
     return {
       appid: game.appid,
       name: game.name,
-      playtime: Math.floor(game.playtime_2weeks / 60),
+      playtime_2weeks: game.playtime_2weeks,
+      playtime_forever: game.playtime_forever,
       img_icon_url: game.img_icon_url,
     };
   });
 
-  // Get SteamGridDB URLs for all games
   const gridUrls = await getSteamGridUrls(
     games.map((game: { appid: number }) => game.appid)
   );
 
-  // Add grid URLs to games
-  const gamesWithGrids = games.map((game: { appid: number }) => ({
+  const gamesWithGrids = games.map((game: SteamGame) => ({
     ...game,
-    gridUrl: gridUrls[game.appid],
+    gridUrl: gridUrls[game.appid] || null,
   }));
 
   const totalPlaytime = games.reduce(
-    (accumulator: number, game: { playtime: number }) =>
-      accumulator + game.playtime,
+    (accumulator: number, game: SteamGame) =>
+      accumulator + Math.floor(game.playtime_2weeks / 60),
     0
   );
 
