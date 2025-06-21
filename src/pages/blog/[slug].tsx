@@ -107,16 +107,24 @@ export default function BlogPage({
           </h1>
           <h2 className="text-lg font-serif">{source.frontmatter.excerpt}</h2>
           <p className="text-sm text-neutral-500 dark:text-neutral-400">
-            Written on {source.frontmatter.date}
+            Written on{" "}
+            {new Date(source.frontmatter.date).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
             {source.frontmatter.tags && source.frontmatter.tags.length > 0 && (
               <>
                 {" · "}
-                {source.frontmatter.tags.map((tag: string, index: number) => (
-                  <span key={tag}>
-                    <StyledLink href={`/blog/tags/${tag}`}>#{tag}</StyledLink>
-                    {index < source.frontmatter.tags.length - 1 && " "}
-                  </span>
-                ))}
+                {source.frontmatter.tags
+                  .slice()
+                  .sort()
+                  .map((tag: string, index: number) => (
+                    <span key={tag}>
+                      <StyledLink href={`/blog/tags/${tag}`}>#{tag}</StyledLink>
+                      {index < source.frontmatter.tags.length - 1 && " "}
+                    </span>
+                  ))}
               </>
             )}
             {" · "}

@@ -79,17 +79,20 @@ export const PostPreview = ({
           {excerpt}
         </p>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          {tags?.map((tag, index) => (
-            <span key={tag}>
-              <StyledLink
-                href={`/blog/tags/${tag}`}
-                onClick={(e) => handleTagClick(e, tag)}
-              >
-                #{tag}
-              </StyledLink>
-              {index < tags.length - 1 && " "}
-            </span>
-          ))}
+          {tags
+            ?.slice()
+            .sort()
+            .map((tag, index) => (
+              <span key={tag}>
+                <StyledLink
+                  href={`/blog/tags/${tag}`}
+                  onClick={(e) => handleTagClick(e, tag)}
+                >
+                  #{tag}
+                </StyledLink>
+                {index < tags.length - 1 && " "}
+              </span>
+            ))}
         </p>
       </div>
 
