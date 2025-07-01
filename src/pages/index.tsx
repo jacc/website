@@ -97,11 +97,11 @@ export default function Home(props: Props) {
               className="text-base dark:text-neutral-300 font-sans"
               variants={item}
             >
-              Hi! I&apos;m Jack. I&apos;ve been called many things over the
-              years, but at my core, I&apos;ve always been a tinkerer. I
-              recently graduated with a degree in Cybersecurity from the
-              University of Tampa (and liked it so much, I decided to stick
-              around for my MBA!)
+              Hi! I&apos;m Jack. I&apos;ve had a chance to dabble in many trades
+              (get it?) over the years, but at my core, I&apos;ve always had a
+              passion for tinkering. I recently graduated with a degree in
+              Cybersecurity from the University of Tampa (and liked it so much,
+              I decided to stick around for my MBA!)
             </motion.p>
             <motion.div variants={item}>
               <p className="text-base dark:text-neutral-300 font-sans">
@@ -137,9 +137,9 @@ export default function Home(props: Props) {
               className="text-base dark:text-neutral-300 font-sans"
               variants={item}
             >
-              I&apos;m currently working at Security Innovation as a Security
-              Engineer Intern, where I get to put all that tinkering to good
-              use.
+              I&apos;m currently working at Bureau Veritas Cybersecurity as a
+              Security Engineer Intern, where I get to put all that tinkering
+              experience to good use.
             </motion.p>
             <motion.p
               className="text-base dark:text-neutral-300 font-sans"
@@ -156,11 +156,10 @@ export default function Home(props: Props) {
             >
               <PersonalInterests
                 music={props.music}
-                books={props.books}
-                games={props.steam.games}
                 spotify={lanyard?.spotify || null}
               />
             </motion.p>
+
             <motion.p
               className="text-base dark:text-neutral-300 font-sans"
               variants={item}
